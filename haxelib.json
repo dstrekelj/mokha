@@ -1,0 +1,12 @@
+{
+  "classPath": "Sources",
+  "contributors": [ "dstrekelj" ],
+  "dependencies": { },
+  "description": "2D game development framework for Kha",
+  "name": "khake",
+  "license": "MIT",
+  "releasenote": "Initial release",
+  "tags": ["game", "kha"],
+  "url" : "https://github.com/dstrekelj/khake/",
+  "version": "1.0.0"
+}
