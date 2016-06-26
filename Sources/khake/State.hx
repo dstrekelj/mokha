@@ -1,5 +1,7 @@
 package khake;
 
+import khake.groups.Group;
+
 class State extends Group<Object> {
     /**
             Called when states are switched after the previous state has been

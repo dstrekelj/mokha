@@ -1,4 +1,6 @@
-package khake;
+package khake.groups;
+
+import khake.Object;
 
 import kha.graphics2.Graphics;
 
