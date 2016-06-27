@@ -46,6 +46,15 @@ class Entity extends Object {
     }
     
     /**
+            Nulls references.
+    **/
+    override public function destroy() : Void {
+        super.destroy();
+        this.position = null;
+        this.hitbox = null;
+    }
+    
+    /**
             Positions entity center point at (x, y) position.
             
             @param  x   Horizontal position

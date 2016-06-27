@@ -30,4 +30,12 @@ class Sprite extends Entity {
         g.color = Color.White;
         g.drawImage(this.graphic, this.position.x, this.position.y);
     }
+    
+    /**
+            Nulls references.
+    **/
+    override public function destroy() : Void {
+        super.destroy();
+        this.graphic = null;
+    }
 }

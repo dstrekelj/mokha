@@ -43,6 +43,17 @@ class Group<T : Object> extends Object {
     }
     
     /**
+            Nulls references.
+    **/
+    override public function destroy() : Void {
+        super.destroy();
+        this.each(function (m : T) {
+            m.destroy();
+        })
+        this.members = null;
+    }
+    
+    /**
             Adds member to group.
             
             @param  m   Member to add

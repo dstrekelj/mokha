@@ -36,6 +36,12 @@ class Object {
     }
     
     /**
+            Override this. Intended for nulling references to variables.
+    **/
+    public function destroy() : Void {
+    }
+    
+    /**
             Shorthand for making the object inactive and invisible.
     **/
     public function kill() : Void {

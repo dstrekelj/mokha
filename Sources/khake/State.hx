@@ -14,5 +14,6 @@ class State extends Group<Object> {
             Called when states are switched before the next state is created.
     **/
     public function onDestroy() : Void {
+        this.destroy();
     }
 }
