@@ -19,6 +19,7 @@ class Game {
             Rendering resolution height.
     **/
     public var height : Int;
+    public var elapsed : Float;
     /**
             Backbuffer to which current state draws.
     **/
@@ -36,6 +37,7 @@ class Game {
     public function new(width : Int, height : Int, state : Class<State>) {
         this.width = width;
         this.height = height;
+        this.elapsed = 0;
         this.backbuffer = Image.createRenderTarget(width, height);
         Khake.game = this;
         switchState(state);
@@ -45,6 +47,7 @@ class Game {
             Updates current game state.
     **/
     public function update() : Void {
+        elapsed += 0.01666666; // 1/60 
         if (state != null) state.update();
     }
     
