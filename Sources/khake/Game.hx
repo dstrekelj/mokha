@@ -20,6 +20,7 @@ class Game {
     **/
     public var height : Int;
     public var elapsed : Float;
+    public var frameRate : Float;
     /**
             Backbuffer to which current state draws.
     **/
@@ -38,17 +39,19 @@ class Game {
         this.width = width;
         this.height = height;
         this.elapsed = 0;
+        this.frameRate = 1 / 60;
         this.backbuffer = Image.createRenderTarget(width, height);
         Khake.game = this;
-        switchState(state);
+        this.switchState(state);
     }
     
     /**
             Updates current game state.
     **/
     public function update() : Void {
-        elapsed += 0.01666666; // 1/60 
-        if (state != null) state.update();
+        this.elapsed += this.frameRate; // 1/60 
+        if (this.state != null) this.state.update();
+        trace(this.elapsed);
     }
     
     /**

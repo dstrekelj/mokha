@@ -49,7 +49,7 @@ class Group<T : Object> extends Object {
         super.destroy();
         this.each(function (m : T) {
             m.destroy();
-        })
+        });
         this.members = null;
     }
     
