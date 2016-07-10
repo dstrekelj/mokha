@@ -28,9 +28,9 @@ class Sprite extends Entity {
         this.animator = new AnimationSystem(this, width, height); 
     }
     
-    override public function update() : Void {
-        super.update();
-        this.animator.update();
+    override public function update(dt : Float) : Void {
+        super.update(dt);
+        this.animator.update(dt);
     }
     
     /**
@@ -40,7 +40,7 @@ class Sprite extends Entity {
             @param  g   G2 API access to framebuffer
     **/
     override public function draw(g : Graphics) : Void {
-        super.update();
+        super.draw(g);
         g.color = Color.White;
         this.animator.draw(g);
     }

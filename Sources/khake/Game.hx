@@ -35,11 +35,11 @@ class Game {
             @param  height  Rendering resolution height
             @param  state   Initial state
     **/
-    public function new(width : Int, height : Int, state : Class<State>) {
+    public function new(width : Int, height : Int, frameRate : Float, state : Class<State>) {
         this.width = width;
         this.height = height;
         this.elapsed = 0;
-        this.frameRate = 1 / 60;
+        this.frameRate = frameRate;
         this.backbuffer = Image.createRenderTarget(width, height);
         Khake.game = this;
         this.switchState(state);
@@ -50,8 +50,7 @@ class Game {
     **/
     public function update() : Void {
         this.elapsed += this.frameRate; // 1/60 
-        if (this.state != null) this.state.update();
-        trace(this.elapsed);
+        if (this.state != null) this.state.update(frameRate);
     }
     
     /**
@@ -62,11 +61,11 @@ class Game {
     **/
     public function render(f : Framebuffer) : Void {
         var bg = this.backbuffer.g2;
-        bg.begin();
+        bg.begin(kha.Color.Black);
         if (state != null) state.draw(bg);
         bg.end();
         var fg = f.g2;
-        fg.begin();
+        fg.begin(kha.Color.Blue);
         Scaler.scale(backbuffer, f, System.screenRotation);
         fg.end();
     }

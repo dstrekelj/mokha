@@ -1,6 +1,5 @@
 package khake.systems;
 
-import khake.Khake;
 import khake.Object;
 import khake.Sprite;
 import khake.shapes.Rectangle;
@@ -23,9 +22,9 @@ class AnimationSystem extends Object {
         this.animation = null;
     }
     
-    override public function update() : Void {
+    override public function update(dt : Float) : Void {
         if (this.animation != null) {
-            this.timer += Khake.game.frameRate;
+            this.timer += dt;
             if (this.timer >= this.animation.frameRate) {
                 this.animation.update();
                 this.frame.x = this.animation.index * this.frame.width;

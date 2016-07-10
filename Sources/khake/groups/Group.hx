@@ -21,10 +21,10 @@ class Group<T : Object> extends Object {
     /**
             Updates all members (if both group and group member are active).
     **/
-    override public function update() : Void {
+    override public function update(dt : Float) : Void {
         if (this.isActive) {
             for (m in this.members) {
-                if (m.isActive) m.update();
+                if (m.isActive) m.update(dt);
             }
         }
     }

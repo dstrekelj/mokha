@@ -24,7 +24,7 @@ class Object {
     /**
             Override this. Intended for game logic and property updating.
     **/
-    public function update() : Void {
+    public function update(dt : Float) : Void {
     }
     
     /**
