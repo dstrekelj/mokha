@@ -27,7 +27,7 @@ class AnimationSystem extends Object {
             this.timer += dt;
             if (this.timer >= this.animation.frameRate) {
                 this.animation.update();
-                this.frame.x = this.animation.index * this.frame.width;
+                this.frame.x = this.animation.frameIndex * this.frame.width;
                 this.timer = 0;
             }
         }
@@ -45,7 +45,7 @@ class AnimationSystem extends Object {
     public function use(label : String) : Void {
         this.animation = this.animations.get(label);
         this.animation.reset();
-        this.frame.x = this.frame.width * this.animation.index;
+        this.frame.x = this.frame.width * this.animation.frameIndex;
     }
 }
 
@@ -53,22 +53,38 @@ private class Animation {
     public var frames : Array<Int>;
     public var frameRate : Float;
     public var repeat : Bool;
-    public var index : Int;
+    public var frameIndex : Int;
+    public var active : Bool;
+    
+    var index : Int;
     
     public function new(frames : Array<Int>, frameRate : Float, repeat : Bool) {
         this.frames = frames;
         this.frameRate = frameRate;
         this.repeat = repeat;
+        this.active = true;
         this.index = 0;
+        this.frameIndex = this.frames[this.index];
     }
     
     public function update() : Void {
-        index += 1;
-        if (index >= frames.length) index = 0;
-        trace(index);
+        if (this.active) {
+            this.index += 1;
+            if (this.index >= this.frames.length) {
+                if (this.repeat) {
+                    this.index = 0;
+                } else {
+                    this.index = this.frames.length - 1;
+                    this.active = false;
+                }                
+            }
+            this.frameIndex = this.frames[this.index];
+        }
     }
     
     public function reset() : Void {
-        index = 0;
+        this.index = 0;
+        this.frameIndex = this.frames[this.index];
+        this.active = true;
     }
 }
