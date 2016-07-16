@@ -1,23 +1,23 @@
 package khake.shapes;
 
 /**
-        Rectangle shape with collision logic.
+    Rectangle shape with collision logic.
 **/
 class Rectangle extends Shape {
     /**
-            Rectangle width.
+        Rectangle width.
     **/
     public var width : Float;
     /**
-            Rectangle height.
+        Rectangle height.
     **/
     public var height : Float;
     
     /**
-            @param  x       Horizontal position (top left corner)
-            @param  y       Vertical position (top left corner)
-            @param  width   Rectangle width
-            @param  height  Rectangle height
+        @param  x       Horizontal position (top left corner)
+        @param  y       Vertical position (top left corner)
+        @param  width   Rectangle width
+        @param  height  Rectangle height
     **/
     public function new(x : Float, y : Float, width : Float, height : Float) {
         super(x, y);
@@ -26,10 +26,10 @@ class Rectangle extends Shape {
     }
     
     /**
-            Checks if rectangle area overlaps point.
-            
-            @param  x   Point horizontal position
-            @param  y   Point vertical position
+        Checks if rectangle area overlaps point.
+        
+        @param  x   Point horizontal position
+        @param  y   Point vertical position
     **/
     public function collidesPoint(x : Float, y : Float) : Bool {
         if (this.x > x) return false;
@@ -40,9 +40,9 @@ class Rectangle extends Shape {
     }
     
     /**
-            Checks if rectange area overlaps another rectangle.
-            
-            @param  r   Rectangle
+        Checks if rectange area overlaps another rectangle.
+        
+        @param  r   Rectangle
     **/
     public function collidesRectangle(r : Rectangle) : Bool {
         if (this.x > (r.x + r.width)) return false;

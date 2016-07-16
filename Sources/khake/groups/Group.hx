@@ -5,11 +5,11 @@ import khake.Object;
 import kha.graphics2.Graphics;
 
 /**
-        A group is a collection of objects.
+    A group is a collection of objects.
 **/
 class Group<T : Object> extends Object {
     /**
-            Group members array.
+        Group members array.
     **/
     var members : Array<T>;
     
@@ -19,20 +19,20 @@ class Group<T : Object> extends Object {
     }
     
     /**
-            Updates all members (if both group and group member are active).
+        Updates all members (if both group and group member are active).
     **/
-    override public function update(dt : Float) : Void {
+    override public function update() : Void {
         if (this.isActive) {
             for (m in this.members) {
-                if (m.isActive) m.update(dt);
+                if (m.isActive) m.update();
             }
         }
     }
     
     /**
-            Draws all members (if both group and group member are visible).
-            
-            @param  g   G2 API access to framebuffer
+        Draws all members (if both group and group member are visible).
+
+        @param  g   G2 API access to framebuffer
     **/
     override public function draw(g : Graphics) : Void {
         if (this.isVisible) {
@@ -43,7 +43,7 @@ class Group<T : Object> extends Object {
     }
     
     /**
-            Nulls references.
+        Nulls references.
     **/
     override public function destroy() : Void {
         super.destroy();
@@ -54,9 +54,9 @@ class Group<T : Object> extends Object {
     }
     
     /**
-            Adds member to group.
-            
-            @param  m   Member to add
+        Adds member to group.
+
+        @param  m   Member to add
     **/
     public function add(m : T) : T {
         this.members.push(m);
@@ -64,9 +64,9 @@ class Group<T : Object> extends Object {
     } 
     
     /**
-            Removes member from group.
-            
-            @param  m   Member to remove
+        Removes member from group.
+
+        @param  m   Member to remove
     **/
     public function remove(m : T) : T {
         var index = this.members.indexOf(m);
@@ -76,9 +76,9 @@ class Group<T : Object> extends Object {
     }
     
     /**
-            Iterates over every member of group and executes function on it.
-            
-            @param  f   Callback function
+        Iterates over every member of group and executes function on it.
+
+        @param  f   Callback function
     **/
     public function each(f : T->Void) : Void {
         for (m in this.members) f(m);

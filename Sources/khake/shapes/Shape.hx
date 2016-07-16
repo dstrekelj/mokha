@@ -1,21 +1,21 @@
 package khake.shapes;
 
 /**
-        Base shape class.
+    Base shape class.
 **/
 class Shape {
     /**
-            Shape horizontal position.
+        Shape horizontal position.
     **/
     public var x : Float;
     /**
-            Shape vertical position.
+        Shape vertical position.
     **/
     public var y : Float;
     
     /**
-            @param  x   Horizontal position
-            @param  y   Vertical position
+        @param  x   Horizontal position
+        @param  y   Vertical position
     **/
     public function new(x : Float, y : Float) {
         this.x = x;
@@ -23,10 +23,10 @@ class Shape {
     }
     
     /**
-            Shorthand for setting shape position.
-            
-            @param  x   Horizontal position
-            @param  y   Vertical position
+        Shorthand for setting shape position.
+        
+        @param  x   Horizontal position
+        @param  y   Vertical position
     **/
     public function setPosition(x : Float, y : Float) {
         this.x = x;

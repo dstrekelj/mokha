@@ -8,19 +8,19 @@ import kha.graphics2.Graphics;
 
 class Sprite extends Entity {
     /**
-            Sprite graphic.
+        Sprite graphic.
     **/
     public var graphic : Image;
     
     /**
-            Sprite animator.
+        Sprite animator.
     **/
     public var animator : AnimationSystem;
     
     /**
-            @param  x       Horizontal position
-            @param  y       Vertical position
-            @param  graphic Graphic
+        @param  x       Horizontal position
+        @param  y       Vertical position
+        @param  graphic Graphic
     **/
     public function new(x : Float, y : Float, graphic : Image, width : Float, height : Float) {
         super(x, y, width, height);
@@ -28,16 +28,16 @@ class Sprite extends Entity {
         this.animator = new AnimationSystem(this, width, height); 
     }
     
-    override public function update(dt : Float) : Void {
-        super.update(dt);
-        this.animator.update(dt);
+    override public function update() : Void {
+        super.update();
+        this.animator.update();
     }
     
     /**
-            Draws sprite using the graphic. Color is set to white before the
-            image is drawn because of default multiplicative color blending.
-            
-            @param  g   G2 API access to framebuffer
+        Draws sprite using the graphic. Color is set to white before the
+        image is drawn because of default multiplicative color blending.
+        
+        @param  g   G2 API access to framebuffer
     **/
     override public function draw(g : Graphics) : Void {
         super.draw(g);
@@ -46,7 +46,7 @@ class Sprite extends Entity {
     }
     
     /**
-            Nulls references.
+        Nulls references.
     **/
     override public function destroy() : Void {
         super.destroy();
