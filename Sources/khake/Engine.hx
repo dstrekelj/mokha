@@ -1,6 +1,7 @@
 package khake;
 
 import khake.Khake;
+import khake.managers.input.MouseInputManager;
 
 import kha.Assets;
 import kha.Framebuffer;
@@ -22,6 +23,9 @@ class Engine {
             Khake.windowHeight = _height;
             Assets.loadEverything(function () {
                 game = Type.createInstance(_game, []);
+
+                MouseInputManager.get();
+
                 System.notifyOnRender(render);
                 Scheduler.addTimeTask(update, 0, _frameRate);
             });

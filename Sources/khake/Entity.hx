@@ -53,6 +53,11 @@ class Entity extends Object {
         this.position = null;
         this.hitbox = null;
     }
+
+    public function setPosition(x : Float, y : Float) : Void {
+        this.position.x = x;
+        this.position.y = y;
+    }
     
     /**
         Positions entity center point at (x, y) position.

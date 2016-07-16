@@ -6,6 +6,7 @@ import kha.Framebuffer;
 import kha.Image;
 import kha.Scaler;
 import kha.System;
+import kha.graphics2.ImageScaleQuality;
 
 /**
     The game class prepares a backbuffer to which states draw. The
@@ -63,11 +64,12 @@ class Game {
     **/
     public function render(f : Framebuffer) : Void {
         var bg = this.backbuffer.g2;
-        bg.begin(kha.Color.Black);
+        bg.begin(true, kha.Color.Black);
         if (state != null) state.draw(bg);
         bg.end();
         var fg = f.g2;
-        fg.begin(kha.Color.Blue);
+        fg.begin(true, kha.Color.Blue);
+        fg.imageScaleQuality = ImageScaleQuality.High;
         Scaler.scale(backbuffer, f, System.screenRotation);
         fg.end();
     }
