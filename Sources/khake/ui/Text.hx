@@ -20,7 +20,7 @@ class Text extends Entity {
     override public function draw(g : Graphics) : Void {
         g.font = this.font;
         g.fontSize = this.size;
-        g.drawString(this.value, this.position.x, this.position.y);
+        g.drawString(this.value, this.x, this.y);
     }
     
     private function set_value(value : String) : String {

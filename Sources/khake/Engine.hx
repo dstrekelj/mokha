@@ -15,6 +15,8 @@ class Engine {
     static var delta : Float;
     static var game : Game;
 
+    static var mouseInputManager : MouseInputManager;
+
     public static function init(_game : Class<Game>, _title : String, _width : Int, _height : Int, _frameRate : Float) {
         elapsed = 0;
         delta = 0;
@@ -24,7 +26,7 @@ class Engine {
             Assets.loadEverything(function () {
                 game = Type.createInstance(_game, []);
 
-                MouseInputManager.get();
+                mouseInputManager = MouseInputManager.get();
 
                 System.notifyOnRender(render);
                 Scheduler.addTimeTask(update, 0, _frameRate);
@@ -42,6 +44,8 @@ class Engine {
 
         Khake.delta = delta;
         Khake.elapsed = elapsed;
+
+        mouseInputManager.update();
 
         game.update();
     }

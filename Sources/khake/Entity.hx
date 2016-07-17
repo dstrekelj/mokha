@@ -2,7 +2,7 @@ package khake;
 
 import khake.shapes.Rectangle;
 
-import kha.math.Vector2;
+import kha.graphics2.Graphics;
 
 /**
     An entity is an object with physical properties: position, width,
@@ -10,9 +10,23 @@ import kha.math.Vector2;
 **/
 class Entity extends Object {
     /**
-        Entity position.
+        Entity x position.
     **/
-    public var position : Vector2;
+    public var x(default, set) : Float;
+    inline function set_x(x : Float) {
+        this.x = x;
+        this.hitbox.x = x;
+        return this.x;
+    }
+    /**
+        Entity y position.
+    **/
+    public var y(default, set) : Float;
+    inline function set_y(y : Float) {
+        this.y = y;
+        this.hitbox.y = y;
+        return this.y;
+    }
     /**
         Entity width. Equals hitbox width by default.
     **/
@@ -38,11 +52,18 @@ class Entity extends Object {
     **/
     public function new(x : Float, y : Float, width : Float, height : Float) {
         super();
-        this.position = new Vector2(x, y);
+        this.hitbox = new Rectangle(x, y, width, height);
+        this.x = x;
+        this.y = y;
         this.width = width;
         this.height = height;
-        this.hitbox = new Rectangle(x, y, width, height);
         this.isCollideable = true;
+    }
+
+    override public function draw(g : Graphics) : Void {
+        super.draw(g);
+        g.color = kha.Color.Red;
+        g.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
     }
     
     /**
@@ -50,13 +71,12 @@ class Entity extends Object {
     **/
     override public function destroy() : Void {
         super.destroy();
-        this.position = null;
         this.hitbox = null;
     }
 
     public function setPosition(x : Float, y : Float) : Void {
-        this.position.x = x;
-        this.position.y = y;
+        this.x = x;
+        this.y = y;
     }
     
     /**
@@ -66,8 +86,8 @@ class Entity extends Object {
         @param  y   Vertical position
     **/
     public function setCenterPosition(x : Float, y : Float) : Void {
-        this.position.x = x - this.width / 2;
-        this.position.y = y - this.height / 2; 
+        this.x = x - this.width / 2;
+        this.y = y - this.height / 2; 
     }
     
     /**

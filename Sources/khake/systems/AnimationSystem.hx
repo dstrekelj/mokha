@@ -36,7 +36,7 @@ class AnimationSystem extends Object {
     
     override public function draw(g : Graphics) : Void {
         super.draw(g);
-        g.drawSubImage(this.sprite.graphic, this.sprite.position.x, this.sprite.position.y, this.frame.x, this.frame.y, this.frame.width, this.frame.height);
+        g.drawSubImage(this.sprite.graphic, this.sprite.x, this.sprite.y, this.frame.x, this.frame.y, this.frame.width, this.frame.height);
     }
     
     public function add(label : String, frames : Array<Int>, frameRate : Float, repeat : Bool) : Void {

@@ -1,9 +1,6 @@
 package khake.managers.input;
 
-import kha.Key;
-import kha.input.Keyboard;
 import kha.input.Mouse;
-import kha.input.Surface;
 
 class MouseInputManager {
     public var x : Int;
@@ -13,7 +10,6 @@ class MouseInputManager {
     public var dy : Int;
     public var buttonId : Int;
     public var isPressed : Bool;
-    public var isReleased : Bool;
     
     static var instance : MouseInputManager;
 
@@ -24,6 +20,9 @@ class MouseInputManager {
     public static function get() : MouseInputManager{
         if (instance == null) instance = new MouseInputManager();
         return instance;
+    }
+
+    public function update() : Void {
     }
 
     function onMouseDown(_b : Int, _x : Int, _y : Int) : Void {
