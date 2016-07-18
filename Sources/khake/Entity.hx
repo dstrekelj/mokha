@@ -98,7 +98,7 @@ class Entity extends Object {
         @return True if hitbox overlaps point, false if not
     **/
     public function collidesPoint(x : Float, y : Float) : Bool {
-        return this.hitbox.collidesPoint(x, y);
+        return this.isCollideable ? this.hitbox.collidesPoint(x, y) : false; 
     }
     
     /**
@@ -107,6 +107,6 @@ class Entity extends Object {
         @param  e   Entity to collide with
     **/
     public function collidesEntity(e : Entity) : Bool {
-        return this.hitbox.collidesRectangle(e.hitbox);
+        return this.isCollideable ? this.hitbox.collidesRectangle(e.hitbox) : false;
     }
 }
