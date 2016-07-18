@@ -7,8 +7,9 @@ import kha.graphics2.Graphics;
 
 class Text extends Entity {
     public var font : Font;
-    public var size : Int;
-    public var value : String; 
+    
+    var size : Int;
+    var value : String; 
 
     public function new(font : Font, size : Int) {
         super(0, 0, 0, 0);
