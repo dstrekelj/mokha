@@ -62,8 +62,10 @@ class Entity extends Object {
 
     override public function draw(g : Graphics) : Void {
         super.draw(g);
+        #if khake_debug
         g.color = kha.Color.Red;
         g.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
+        #end
     }
     
     /**
@@ -72,6 +74,16 @@ class Entity extends Object {
     override public function destroy() : Void {
         super.destroy();
         this.hitbox = null;
+    }
+
+    override public function kill() : Void {
+        super.kill();
+        isCollideable = false;
+    }
+
+    override public function revive() : Void {
+        super.revive();
+        isCollideable = true;
     }
 
     public function setPosition(x : Float, y : Float) : Void {
