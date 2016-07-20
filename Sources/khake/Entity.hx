@@ -119,6 +119,6 @@ class Entity extends Object {
         @param  e   Entity to collide with
     **/
     public function collidesEntity(e : Entity) : Bool {
-        return this.isCollideable ? this.hitbox.collidesRectangle(e.hitbox) : false;
+        return (this.isCollideable && e.isCollideable) ? this.hitbox.collidesRectangle(e.hitbox) : false;
     }
 }
