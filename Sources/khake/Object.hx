@@ -11,11 +11,15 @@ class Object {
         If true, object is updated. True by default.
     **/
     public var isActive : Bool;
+    
     /**
         If true, object is drawn. True by default.
     **/
     public var isVisible : Bool;
     
+    /**
+        Creates new active and visible object.
+    **/
     public function new() {
         this.isActive = true;
         this.isVisible = true;
@@ -29,14 +33,13 @@ class Object {
     
     /**
         Override this. Intended for drawing.
-        
         @param   g   G2 API access to framebuffer
     **/
     public function draw(g : Graphics) : Void {
     }
     
     /**
-        Override this. Intended for nulling references to variables.
+        Override this. Intended for nulling references to objects.
     **/
     public function destroy() : Void {
     }

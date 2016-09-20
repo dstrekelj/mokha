@@ -10,41 +10,45 @@ import kha.graphics2.Graphics;
 **/
 class Entity extends Object {
     /**
-        Entity x position.
+        Entity x position. Changes apply to hitbox as well.
     **/
     public var x(default, set) : Float;
     inline function set_x(x : Float) {
-        this.x = x;
         this.hitbox.x = x;
-        return this.x;
+        return this.x = x;
     }
+
     /**
-        Entity y position.
+        Entity y position. Changes apply to hitbox as well.
     **/
     public var y(default, set) : Float;
     inline function set_y(y : Float) {
-        this.y = y;
         this.hitbox.y = y;
-        return this.y;
+        return this.y = y;
     }
+
     /**
-        Entity width. Equals hitbox width by default.
+        Entity width. Equals hitbox width by default. Changes do not apply to hitbox.
     **/
     public var width : Float;
+
     /**
-        Entity height. Equals hitbox height by default.
+        Entity height. Equals hitbox height by default. Changes do not apply to hitbox
     **/ 
     public var height : Float;
+
     /**
-        Rectangular area where the entity is collideable with others.
+        Rectangular collideable area.
     **/
     public var hitbox : Rectangle;
+    
     /**
-        If true, collision logic applies. True by default.
+        If true, collision logic applies.
     **/
     public var isCollideable : Bool;
     
     /**
+        Creates new collideable entity.
         @param  x       Entity horizontal position
         @param  y       Entity vertical position
         @param  width   Entity width
@@ -60,6 +64,9 @@ class Entity extends Object {
         this.isCollideable = true;
     }
 
+    /**
+        Draws entity.
+    **/
     override public function draw(g : Graphics) : Void {
         super.draw(g);
         #if khake_debug
@@ -76,16 +83,25 @@ class Entity extends Object {
         this.hitbox = null;
     }
 
+    /**
+        Kills entity, also making it not collideable.
+    **/
     override public function kill() : Void {
         super.kill();
         isCollideable = false;
     }
 
+    /**
+        Revives entity, also making it collideable.
+    **/
     override public function revive() : Void {
         super.revive();
         isCollideable = true;
     }
 
+    /**
+        Positions entity top-left corner at (x, y) position.
+    **/
     public function setPosition(x : Float, y : Float) : Void {
         this.x = x;
         this.y = y;
@@ -93,32 +109,11 @@ class Entity extends Object {
     
     /**
         Positions entity center point at (x, y) position.
-        
         @param  x   Horizontal position
         @param  y   Vertical position
     **/
     public function setCenterPosition(x : Float, y : Float) : Void {
         this.x = x - this.width / 2;
         this.y = y - this.height / 2; 
-    }
-    
-    /**
-        Checks if hitbox overlaps point.
-        
-        @param  x   Point horizontal position
-        @param  y   Point vertical position
-        @return True if hitbox overlaps point, false if not
-    **/
-    public function collidesPoint(x : Float, y : Float) : Bool {
-        return this.isCollideable ? this.hitbox.collidesPoint(x, y) : false; 
-    }
-    
-    /**
-        Checks if hitbox overlaps with another entity's hitbox.
-        
-        @param  e   Entity to collide with
-    **/
-    public function collidesEntity(e : Entity) : Bool {
-        return (this.isCollideable && e.isCollideable) ? this.hitbox.collidesRectangle(e.hitbox) : false;
     }
 }
