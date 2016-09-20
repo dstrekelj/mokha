@@ -31,11 +31,35 @@ class Rectangle {
         @param  width   Rectangle width
         @param  height  Rectangle height
     **/
-    public function new(x : Float, y : Float, width : Float, height : Float) {
+    public function new(x : Float, y : Float, width : Float, height : Float) : Void {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
+    }
+
+    /**
+        Shorthand for position setting.
+    **/
+    public function setPosition(x : Float, y : Float) : Void {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+        Shorthand for size setting.
+    **/
+    public function setSize(width : Float, height : Float) : Void {
+        this.width = width;
+        this.height = height;
+    }
+
+    /**
+        Shorthand for centroid setting.
+    **/
+    public function setCentroid(x : Float, y : Float) : Void {
+        this.x = x - this.width / 2;
+        this.y = y - this.height / 2;
     }
     
     /**
