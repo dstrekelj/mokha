@@ -1,5 +1,11 @@
 package khake.tools.animation;
 
+/**
+	An animation frame is a rectangular shape that is positioned
+	somewhere on the sprite sheet. It's a mask that only shows
+	the part of the image on the sprite sheet that overlaps with
+	the rectangular animation frame shape.
+**/
 class AnimationFrame {
 	/**
 		X position on sprite sheet.
