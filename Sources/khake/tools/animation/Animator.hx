@@ -7,6 +7,9 @@ import khake.Sprite;
 
 import kha.graphics2.Graphics;
 
+/**
+    An animator is a tool for animating sprite sheets.
+**/
 class Animator {
     /**
         Frame rectangle.
