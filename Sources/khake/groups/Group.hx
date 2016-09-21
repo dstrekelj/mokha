@@ -9,10 +9,38 @@ import kha.graphics2.Graphics;
 **/
 class Group<T : Object> extends Object {
     /**
+        Called after an object in the group is updated.
+    **/
+    public var onUpdate : T->Void;
+    
+    /**
+        Called after an object in the group is drawn.
+    **/
+    public var onDraw : T->Void;
+    
+    /**
+        Called after an object in the group is destroyed.
+    **/
+    public var onDestroy : Void->Void;
+    
+    /**
+        Called after an object is added to the group.
+    **/
+    public var onAdd : T->Void;
+    
+    /**
+        Called after an object is removed from the group.
+    **/
+    public var onRemove : T->Void;
+
+    /**
         Group members array.
     **/
     var members : Array<T>;
     
+    /**
+        Creates new group.
+    **/
     public function new() {
         super();
         this.members = new Array<T>();
@@ -24,20 +52,25 @@ class Group<T : Object> extends Object {
     override public function update() : Void {
         if (this.isActive) {
             for (m in this.members) {
-                if (m.isActive) m.update();
+                if (m.isActive) {
+                    m.update();
+                    if (onUpdate != null) onUpdate(m);
+                }
             }
         }
     }
     
     /**
         Draws all members (if both group and group member are visible).
-
         @param  g   G2 API access to framebuffer
     **/
     override public function draw(g : Graphics) : Void {
         if (this.isVisible) {
             for (m in this.members) {
-                if (m.isVisible) m.draw(g);
+                if (m.isVisible) {
+                    m.draw(g);
+                    if (onDraw != null) onDraw(m);
+                }
             }
         }
     }
@@ -49,35 +82,35 @@ class Group<T : Object> extends Object {
         super.destroy();
         this.each(function (m : T) {
             m.destroy();
+            if (onDestroy != null) onDestroy();
         });
         this.members = null;
     }
     
     /**
         Adds member to group.
-
         @param  m   Member to add
     **/
     public function add(m : T) : T {
         this.members.push(m);
+        if (onAdd != null) onAdd(m);
         return m;
     } 
     
     /**
         Removes member from group.
-
         @param  m   Member to remove
     **/
     public function remove(m : T) : T {
         var index = this.members.indexOf(m);
         if (index < 0) return null;
         this.members.splice(index, 1);
+        if (onRemove != null) onRemove(m);
         return m;
     }
     
     /**
         Iterates over every member of group and executes function on it.
-
         @param  f   Callback function
     **/
     public function each(f : T->Void) : Void {
