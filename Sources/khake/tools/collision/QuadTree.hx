@@ -77,22 +77,18 @@ class QuadTree extends Rectangle {
         this.entities = new Array<Entity>();
         
         if (nodes != null) {
-            for (node in nodes) {
-                node.clear();
-            }
+            for (node in nodes) node.clear();
             this.nodes = null;
         }
     }
 
     /**
         Inserts item into QuadTree.
-        @param  entity    Entity item
+        @param  entity  Entity item
     **/
     public function insert(entity : Entity) : Void {
         if (this.entities.length >= this.maxEntities && this.depth < this.maxDepth) {
-            if (this.nodes == null) {
-                split();
-            }
+            if (this.nodes == null) split();
             forward(entity);
         }
         
@@ -101,8 +97,7 @@ class QuadTree extends Rectangle {
 
     /**
         Fetches the environment surrounding an entity in the QuadTree.
-        @param  environment An array which will contain the entities in the environment
-        @param  entity      Entity item
+        @param  entity  Entity item
     **/
     public function fetch(entity : Entity) : Array<Entity> {
         var environment = new Array<Entity>();
@@ -125,9 +120,7 @@ class QuadTree extends Rectangle {
     **/
     public function destroy() : Void {
         this.entities = null;
-        for (node in this.nodes) {
-            node.destroy();
-        }
+        for (node in this.nodes) node.destroy();
         this.nodes = null;
     }
 
@@ -136,9 +129,7 @@ class QuadTree extends Rectangle {
         g.color = kha.Color.Cyan;
         g.drawRect(this.x, this.y, this.width, this.height);
         if (this.nodes != null) {
-            for (node in this.nodes) {
-                node.draw(g);
-            }
+            for (node in this.nodes) node.draw(g);
         }
         g.color = kha.Color.White;
     }
@@ -158,13 +149,12 @@ class QuadTree extends Rectangle {
         this.nodes[2] = new QuadTree(x            , y + nodeHeight, nodeWidth, nodeHeight, maxDepth, maxEntities, depth + 1);
         this.nodes[3] = new QuadTree(x            , y             , nodeWidth, nodeHeight, maxDepth, maxEntities, depth + 1);
         
-        for (entity in this.entities) {
-            forward(entity);
-        }
+        for (entity in this.entities) forward(entity);
     }
 
     /**
         Forwards item into appropriate node.
+        @param  entity  Entity item
     **/
     function forward(entity : Entity) : Void {
         for (node in this.nodes) {

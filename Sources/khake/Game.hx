@@ -2,11 +2,11 @@ package khake;
 
 import khake.Khake;
 
+import kha.graphics2.ImageScaleQuality;
 import kha.Framebuffer;
 import kha.Image;
 import kha.Scaler;
 import kha.System;
-import kha.graphics2.ImageScaleQuality;
 
 /**
     The game class prepares a backbuffer to which states draw. The
