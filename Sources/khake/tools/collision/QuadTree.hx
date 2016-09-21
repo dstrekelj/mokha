@@ -5,8 +5,6 @@ import khake.Entity;
 
 import haxe.ds.Vector;
 
-using khake.utils.ArrayUtils;
-
 /**
     QuadTrees are a space partitioning data structure useful for
     collisions in 2D space. The screen is split into four regions,
@@ -109,8 +107,6 @@ class QuadTree extends Rectangle {
     public function fetch(entity : Entity) : Array<Entity> {
         var environment = new Array<Entity>();
 
-        trace('depth ${this.depth}, total: ${this.entities.length}');
-
         if (this.nodes != null) {
             for (node in this.nodes) {
                 if (entity.hitbox.overlapsRectangle(node)) {
@@ -135,8 +131,9 @@ class QuadTree extends Rectangle {
         this.nodes = null;
     }
 
+    #if khake_debug
     public function draw(g : kha.graphics2.Graphics) : Void {
-        g.color = kha.Color.Red;
+        g.color = kha.Color.Cyan;
         g.drawRect(this.x, this.y, this.width, this.height);
         if (this.nodes != null) {
             for (node in this.nodes) {
@@ -145,6 +142,7 @@ class QuadTree extends Rectangle {
         }
         g.color = kha.Color.White;
     }
+    #end
 
     /**
         Splits QuadTree region into four smaller QuadTrees.
