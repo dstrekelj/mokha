@@ -5,6 +5,8 @@ import khake.Entity;
 
 import haxe.ds.Vector;
 
+using khake.utils.ArrayUtils;
+
 /**
     QuadTrees are a space partitioning data structure useful for
     collisions in 2D space. The screen is split into four regions,
@@ -20,9 +22,9 @@ class QuadTree extends Rectangle {
     var maxDepth : Int;
 
     /**
-        Maximum number of items in a region before it is split.
+        Maximum number of entities in a region before it is split.
     **/
-    var maxItems : Int;
+    var maxEntities : Int;
 
     /**
         Region depth level.
@@ -30,9 +32,9 @@ class QuadTree extends Rectangle {
     var depth : Int;
 
     /**
-        Region items.
+        Region entities.
     **/
-    var items : Array<Entity>;
+    var entities : Array<Entity>;
 
     /**
         Region nodes (subdivisions).
@@ -46,14 +48,14 @@ class QuadTree extends Rectangle {
         @param  width       Region width
         @param  height      Region height
         @param  maxDepth    Maximum depth level
-        @param  maxItems    Maximum item count
+        @param  maxEntities Maximum entity count
         @param  depth       Current depth level
     **/
-    function new(x : Float, y : Float, width : Float, height : Float, maxDepth : Int, maxItems : Int, depth : Int) : Void {
+    function new(x : Float, y : Float, width : Float, height : Float, maxDepth : Int, maxEntities : Int, depth : Int) : Void {
         super(x, y, width, height);
         this.depth = depth;
         this.maxDepth = maxDepth;
-        this.maxItems = maxItems;
+        this.maxEntities = maxEntities;
         clear();
     }
 
@@ -64,48 +66,84 @@ class QuadTree extends Rectangle {
         @param  width       Region width
         @param  height      Region height
         @param  maxDepth    Maximum depth level
-        @param  maxItems    Maximum item count
+        @param  maxEntities Maximum entity count
     **/
-    public static function create(x : Float, y : Float, width : Float, height : Float, maxDepth : Int, maxItems : Int) : QuadTree {
-        return new QuadTree(x, y, width, height, maxDepth, maxItems, 0);
+    public static function create(x : Float, y : Float, width : Float, height : Float, maxDepth : Int, maxEntities : Int) : QuadTree {
+        return new QuadTree(x, y, width, height, maxDepth, maxEntities, 0);
     }
 
     /**
-        Clears QuadTree by removing all items and nodes.
+        Clears QuadTree by removing all entities and nodes.
     **/
     public function clear() : Void {
-        this.items = new Array<Entity>();
-        this.nodes = null;
+        this.entities = new Array<Entity>();
+        
+        if (nodes != null) {
+            for (node in nodes) {
+                node.clear();
+            }
+            this.nodes = null;
+        }
     }
 
     /**
         Inserts item into QuadTree.
-        @param  item    Entity item
+        @param  entity    Entity item
     **/
-    public function insert(item : Entity) : Void {
-        if (this.items.length >= this.maxItems && this.depth < this.maxDepth) {
+    public function insert(entity : Entity) : Void {
+        if (this.entities.length >= this.maxEntities && this.depth < this.maxDepth) {
             if (this.nodes == null) {
                 split();
             }
-            forward(item);
+            forward(entity);
         }
         
-        this.items.push(item);
+        this.entities.push(entity);
     }
 
-    public function find(item : Entity) : Array<Entity> {
+    /**
+        Fetches the environment surrounding an entity in the QuadTree.
+        @param  environment An array which will contain the entities in the environment
+        @param  entity      Entity item
+    **/
+    public function fetch(entity : Entity) : Array<Entity> {
+        var environment = new Array<Entity>();
+
+        trace('depth ${this.depth}, total: ${this.entities.length}');
+
+        if (this.nodes != null) {
+            for (node in this.nodes) {
+                if (entity.hitbox.overlapsRectangle(node)) {
+                    environment = environment.concat(node.fetch(entity));
+                }
+            }
+        } else {
+            environment = environment.concat(this.entities);
+        }
         
+        return environment;
     }
 
     /**
         Destroys QuadTree.
     **/
     public function destroy() : Void {
-        this.items = null;
+        this.entities = null;
         for (node in this.nodes) {
             node.destroy();
         }
         this.nodes = null;
+    }
+
+    public function draw(g : kha.graphics2.Graphics) : Void {
+        g.color = kha.Color.Red;
+        g.drawRect(this.x, this.y, this.width, this.height);
+        if (this.nodes != null) {
+            for (node in this.nodes) {
+                node.draw(g);
+            }
+        }
+        g.color = kha.Color.White;
     }
 
     /**
@@ -117,19 +155,23 @@ class QuadTree extends Rectangle {
         var nodeWidth = this.width / 2;
         var nodeHeight = this.height / 2;
 
-        this.nodes[0] = new QuadTree(x + nodeWidth, y             , nodeWidth, nodeHeight, maxDepth, maxItems, depth + 1);
-        this.nodes[1] = new QuadTree(x + nodeWidth, y + nodeHeight, nodeWidth, nodeHeight, maxDepth, maxItems, depth + 1);
-        this.nodes[2] = new QuadTree(x            , y + nodeHeight, nodeWidth, nodeHeight, maxDepth, maxItems, depth + 1);
-        this.nodes[3] = new QuadTree(x            , y             , nodeWidth, nodeHeight, maxDepth, maxItems, depth + 1);
+        this.nodes[0] = new QuadTree(x + nodeWidth, y             , nodeWidth, nodeHeight, maxDepth, maxEntities, depth + 1);
+        this.nodes[1] = new QuadTree(x + nodeWidth, y + nodeHeight, nodeWidth, nodeHeight, maxDepth, maxEntities, depth + 1);
+        this.nodes[2] = new QuadTree(x            , y + nodeHeight, nodeWidth, nodeHeight, maxDepth, maxEntities, depth + 1);
+        this.nodes[3] = new QuadTree(x            , y             , nodeWidth, nodeHeight, maxDepth, maxEntities, depth + 1);
+        
+        for (entity in this.entities) {
+            forward(entity);
+        }
     }
 
     /**
         Forwards item into appropriate node.
     **/
-    function forward(item : Entity) : Void {
+    function forward(entity : Entity) : Void {
         for (node in this.nodes) {
-            if (item.hitbox.overlapsRectangle(node)) {
-                node.insert(item);
+            if (entity.hitbox.overlapsRectangle(node)) {
+                node.insert(entity);
             }
         }
     }
