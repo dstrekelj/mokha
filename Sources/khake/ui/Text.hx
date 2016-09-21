@@ -35,7 +35,12 @@ class Text extends Entity {
     **/
     var value : String; 
 
-    public function new(font : Font, size : Int) {
+    /**
+        Creates new text object.
+        @param  font    Text font family
+        @param  size    Text font size
+    **/
+    public function new(font : Font, size : Int) : Void {
         super(0, 0, 0, 0);
         this.font = font;
         this.size = size;
@@ -46,6 +51,9 @@ class Text extends Entity {
         updateDimensions();
     }
 
+    /**
+        Draws text.
+    **/
     override public function draw(g : Graphics) : Void {
         super.draw(g);
         g.color = this.backgroundColor;
@@ -57,17 +65,26 @@ class Text extends Entity {
         g.color = Color.White;
     }
 
+    /**
+        Sets text size, updating width and height in the process.
+    **/
     public function setSize(size : Int) : Void {
         this.size = size;
         updateDimensions();
     }
 
+    /**
+        Sets text value, updating width and height in the process.
+    **/
     public function setValue(value : String) : Void {
         this.value = value;
         updateDimensions();
     }
 
-    private function updateDimensions() : Void {
+    /**
+        Updates text dimensions.
+    **/
+    function updateDimensions() : Void {
         this.height = this.font.height(this.size);
         this.width = this.font.width(this.size, this.value);
     }
