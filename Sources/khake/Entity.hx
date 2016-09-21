@@ -54,7 +54,7 @@ class Entity extends Object {
         @param  width   Entity width
         @param  height  Entity height
     **/
-    public function new(x : Float, y : Float, width : Float, height : Float) {
+    public function new(x : Float, y : Float, width : Float, height : Float) : Void {
         super();
         this.hitbox = new Rectangle(x, y, width, height);
         this.x = x;

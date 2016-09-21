@@ -29,7 +29,7 @@ class Sprite extends Entity {
         @param  height  Sprite height
         @param  graphic Image graphic
     **/
-    public function new(x : Float, y : Float, width : Float, height : Float, graphic : Image) {
+    public function new(x : Float, y : Float, width : Float, height : Float, graphic : Image) : Void {
         super(x, y, width, height);
         this.graphic = graphic;
         this.animator = new Animator(width, height, graphic.width, graphic.height);

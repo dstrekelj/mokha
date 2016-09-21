@@ -18,14 +18,17 @@ class Game {
         Rendering resolution width.
     **/
     var width : Int;
+
     /**
         Rendering resolution height.
     **/
     var height : Int;
+
     /**
         Backbuffer to which current state draws.
     **/
     var backbuffer : Image;
+
     /**
         Reference to current state.
     **/
@@ -36,7 +39,7 @@ class Game {
         @param  height  Rendering resolution height
         @param  state   Initial state
     **/
-    public function new(width : Int, height : Int, state : Class<State>) {
+    public function new(width : Int, height : Int, state : Class<State>) : Void {
         this.width = width;
         this.height = height;
         
@@ -59,7 +62,6 @@ class Game {
     /**
         Renders current game state. Backbuffer is scaled to fit the
         framebuffer, which has its dimensions defined by the window.
-            
         @param  f   Framebuffer
     **/
     public function render(f : Framebuffer) : Void {
@@ -78,7 +80,7 @@ class Game {
         Switches current state to a different one. Current state is
         destroyed before the next state is created.
     **/
-    public function switchState(s : Class<State>) {
+    public function switchState(s : Class<State>) : Void {
         if (this.state != null) this.state.onDestroy();
         this.state = Type.createInstance(s, []);
         this.state.onCreate();

@@ -20,7 +20,7 @@ class Object {
     /**
         Creates new active and visible object.
     **/
-    public function new() {
+    public function new() : Void {
         this.isActive = true;
         this.isVisible = true;
     }

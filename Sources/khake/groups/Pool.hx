@@ -14,16 +14,18 @@ class Pool<T : Object> extends Group<T> {
     inline function get_capacity() : Int { return this.capacity; }
     
     /**
+        Creates new pool.
         @param  capacity    Maximum number of members allowed in pool
     **/
-    public function new(capacity : Int) {
+    public function new(capacity : Int) : Void {
         super();
         this.capacity = capacity;
     }
     
     /**
-        Adds member to pool and returns it if pool is under capacity.
-        If pool is over capacity, returns null.
+        Adds member to pool.
+        @param  m   Member
+        @return Member if pool is under capacity, null if pool is over capacity
     **/
     override public function add(m : T) : T {
         if (this.members.length >= this.capacity) return null;

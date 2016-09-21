@@ -41,7 +41,7 @@ class Group<T : Object> extends Object {
     /**
         Creates new group.
     **/
-    public function new() {
+    public function new() : Void {
         super();
         this.members = new Array<T>();
     }
@@ -90,6 +90,7 @@ class Group<T : Object> extends Object {
     /**
         Adds member to group.
         @param  m   Member to add
+        @return Added group member
     **/
     public function add(m : T) : T {
         this.members.push(m);
@@ -100,6 +101,7 @@ class Group<T : Object> extends Object {
     /**
         Removes member from group.
         @param  m   Member to remove
+        @return Removed group member
     **/
     public function remove(m : T) : T {
         var index = this.members.indexOf(m);

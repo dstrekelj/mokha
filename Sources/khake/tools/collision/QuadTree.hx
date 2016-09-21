@@ -65,6 +65,7 @@ class QuadTree extends Rectangle {
         @param  height      Region height
         @param  maxDepth    Maximum depth level
         @param  maxEntities Maximum entity count
+        @return QuadTree instance, the root of all other generated trees
     **/
     public static function create(x : Float, y : Float, width : Float, height : Float, maxDepth : Int, maxEntities : Int) : QuadTree {
         return new QuadTree(x, y, width, height, maxDepth, maxEntities, 0);
@@ -98,6 +99,7 @@ class QuadTree extends Rectangle {
     /**
         Fetches the environment surrounding an entity in the QuadTree.
         @param  entity  Entity item
+        @return Array of entities surrounding the observed entity
     **/
     public function fetch(entity : Entity) : Array<Entity> {
         var environment = new Array<Entity>();

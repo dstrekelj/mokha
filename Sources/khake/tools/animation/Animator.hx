@@ -48,7 +48,7 @@ class Animator {
         @param  sheetWidth  Sprite sheet width
         @param  sheetHeight Sprite sheet height
     **/
-    public function new(frameWidth : Float, frameHeight : Float, sheetWidth : Float, sheetHeight : Float) {
+    public function new(frameWidth : Float, frameHeight : Float, sheetWidth : Float, sheetHeight : Float) : Void {
         this.frame = new AnimationFrame(frameWidth, frameHeight);
         
         this.frameColumns = Std.int(sheetWidth / frameWidth);
