@@ -12,6 +12,8 @@ class KeyboardInputManager {
 
 	function new() : Void {
 		Keyboard.get().notify(onDown, onUp);
+		this.charsPressed = new Map<String, Bool>();
+		this.keysPressed = new Map<String, Bool>();
 	}
 
 	public static function get() : KeyboardInputManager {
@@ -22,13 +24,13 @@ class KeyboardInputManager {
 	public function update() : Void {}
 
 	function onDown(key : Key, char : String) : Void {
-		keysPressed.set(Std.string(key).toLowerCase(), true);
+		keysPressed.set(key.getName().toLowerCase(), true);
 		charsPressed.set(char, true);
 		isPressed = true;
 	}
 
 	function onUp(key : Key, char : String) : Void {
-		keysPressed.remove(Std.string(key).toLowerCase());
+		keysPressed.remove(key.getName().toLowerCase());
 		charsPressed.remove(char);
 		isPressed = false;
 	}
