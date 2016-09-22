@@ -1,5 +1,6 @@
 package khake;
 
+import khake.managers.input.KeyboardInputManager;
 import khake.managers.input.MouseInputManager;
 import khake.Khake;
 
@@ -29,6 +30,11 @@ class Engine {
     static var game : Game;
 
     /**
+        Keyboard input manager.
+    **/
+    static var keyboardInputManager : KeyboardInputManager;
+
+    /**
         Mouse input manager.
     **/
     static var mouseInputManager : MouseInputManager;
@@ -52,6 +58,7 @@ class Engine {
             Assets.loadEverything(function () {
                 game = Type.createInstance(_game, []);
 
+                keyboardInputManager = KeyboardInputManager.get();
                 mouseInputManager = MouseInputManager.get();
 
                 System.notifyOnRender(render);
@@ -78,6 +85,7 @@ class Engine {
         Khake.delta = delta;
         Khake.elapsed = elapsed;
 
+        keyboardInputManager.update();
         mouseInputManager.update();
 
         game.update();
