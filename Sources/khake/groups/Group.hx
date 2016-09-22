@@ -118,4 +118,12 @@ class Group<T : Object> extends Object {
     public function each(f : T->Void) : Void {
         for (m in this.members) f(m);
     }
+
+    /**
+        Exposes the iterator of the members array.
+        @return Iterator over group members
+    **/
+    public function iterator() : Iterator<T> {
+        return this.members.iterator();
+    }
 }

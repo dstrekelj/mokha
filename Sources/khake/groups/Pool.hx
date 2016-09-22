@@ -11,7 +11,7 @@ class Pool<T : Object> extends Group<T> {
         Pool capacity. Read-only.
     **/
     public var capacity(get, null) : Int;
-    inline function get_capacity() : Int { return this.capacity; }
+    @:noCompletion inline function get_capacity() : Int { return this.capacity; }
     
     /**
         Creates new pool.

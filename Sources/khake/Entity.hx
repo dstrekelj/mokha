@@ -13,7 +13,7 @@ class Entity extends Object {
         Entity x position. Changes apply to hitbox as well.
     **/
     public var x(default, set) : Float;
-    inline function set_x(x : Float) {
+    @:noCompletion inline function set_x(x : Float) {
         this.hitbox.x = x;
         return this.x = x;
     }
@@ -22,7 +22,7 @@ class Entity extends Object {
         Entity y position. Changes apply to hitbox as well.
     **/
     public var y(default, set) : Float;
-    inline function set_y(y : Float) {
+    @:noCompletion inline function set_y(y : Float) {
         this.hitbox.y = y;
         return this.y = y;
     }
