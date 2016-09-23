@@ -63,21 +63,36 @@ class Rectangle {
     }
     
     /**
-        Checks if rectangle area overlaps point.
+        Checks if rectangle area contains point.
         @param  x   Point horizontal position
         @param  y   Point vertical position
+        @return `true` if point is within rectangle
     **/
-    public function overlapsPoint(x : Float, y : Float) : Bool {
+    public function containsPoint(x : Float, y : Float) : Bool {
         if (this.x > x) return false;
         if (this.y > y) return false;
         if ((this.x + this.width) < x) return false;
         if ((this.y + this.width) < y) return false;
         return true;
     }
+
+    /**
+        Checks if rectangle area contains another rectangle.
+        @param  r   Object rectangle
+        @return `true` if object rectangle is completely contained within subject
+    **/
+    public function containsRectangle(r : Rectangle) : Bool {
+        if ((this.x + this.width) < (r.x + r.width)) return false;
+        if (this.x > r.x) return false;
+        if ((this.y + this.height) < (r.y + r.height)) return false;
+        if (this.y > r.y) return false;
+        return true;
+    }
     
     /**
-        Checks if rectange area overlaps another rectangle.
-        @param  r   Rectangle
+        Checks if rectangle area overlaps another rectangle.
+        @param  r   Object rectangle
+        @return `true` if object rectangle is completely or partially overlapping subject
     **/
     public function overlapsRectangle(r : Rectangle) : Bool {
         if (this.x > (r.x + r.width)) return false;

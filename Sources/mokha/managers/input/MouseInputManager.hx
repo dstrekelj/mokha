@@ -66,7 +66,11 @@ class MouseInputManager {
     /**
         Updates tracked mouse input states.
     **/
-    public function update() : Void {}
+    public function update() : Void {
+        dy = 0;
+        dx = 0;
+        dw = 0;
+    }
 
     /**
         Handles the event of a mouse button being held down.

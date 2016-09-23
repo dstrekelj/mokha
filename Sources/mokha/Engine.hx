@@ -84,10 +84,10 @@ class Engine {
 
         Mokha.delta = delta;
         Mokha.elapsed = elapsed;
+        
+        game.update();
 
         keyboardInputManager.update();
         mouseInputManager.update();
-
-        game.update();
     }
 }
