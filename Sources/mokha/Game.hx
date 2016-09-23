@@ -2,7 +2,7 @@ package mokha;
 
 import mokha.Mokha;
 
-import kha.gMaphics2.ImageScaleQuality;
+import kha.graphics2.ImageScaleQuality;
 import kha.Framebuffer;
 import kha.Image;
 import kha.Scaler;
@@ -45,14 +45,10 @@ class Game {
         
         this.backbuffer = Image.createRenderTarget(width, height);
         
-        mokha
-    .game = this;
-        mokha
-    MrenderWidth = width;
-        mokha
-    MrenderHeight = height;
-
-    M   this.switchState(state);
+        Mokha.game = this;
+        Mokha.renderWidth = width;
+        Mokha.renderHeight = height;
+        this.switchState(state);
     }
     
     /**
