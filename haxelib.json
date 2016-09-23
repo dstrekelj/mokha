@@ -3,10 +3,10 @@
   "contributors": [ "dstrekelj" ],
   "dependencies": { },
   "description": "2D game development framework for Kha",
-  "name": "khake",
+  "name": "mokha",
   "license": "MIT",
   "releasenote": "Initial release",
   "tags": ["game", "kha"],
-  "url" : "https://github.com/dstrekelj/khake/",
+  "url" : "https://github.com/dstrekelj/mokha/",
   "version": "1.0.0"
 }
