@@ -40,12 +40,4 @@ class Camera extends Object {
 		viewport = null;
 		transformation = null;
 	}
-
-	public function translate(x : Float, y : Float) : Void {
-		transformation = FastMatrix3.translation(-x, -y).multmat(transformation);
-	}
-
-	public function rotate(alpha : Float) : Void {
-		transformation = FastMatrix3.rotation(-alpha).multmat(transformation);
-	}
 }
