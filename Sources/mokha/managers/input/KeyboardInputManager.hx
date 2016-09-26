@@ -9,6 +9,7 @@ class KeyboardInputManager {
 	public var charsPressed : Map<String, Bool>;
 	public var keysPressed : Map<String, Bool>;
 	public var isPressed : Bool;
+	public var justPressed : Bool;
 
 	function new() : Void {
 		Keyboard.get().notify(onDown, onUp);
@@ -21,12 +22,15 @@ class KeyboardInputManager {
 		return instance;
 	}
 
-	public function update() : Void {}
+	public function update() : Void {
+		justPressed = false;
+	}
 
 	function onDown(key : Key, char : String) : Void {
 		keysPressed.set(key.getName().toLowerCase(), true);
 		charsPressed.set(char, true);
 		isPressed = true;
+		justPressed = true;
 	}
 
 	function onUp(key : Key, char : String) : Void {

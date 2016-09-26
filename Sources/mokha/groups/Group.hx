@@ -34,6 +34,12 @@ class Group<T : Object> extends Object {
     public var onRemove : T->Void;
 
     /**
+        Group size.
+    **/
+    public var size(get, null) : Int;
+    @:noCompletion inline function get_size() return members.length;
+
+    /**
         Group members array.
     **/
     var members : Array<T>;
@@ -125,5 +131,15 @@ class Group<T : Object> extends Object {
     **/
     public function iterator() : Iterator<T> {
         return this.members.iterator();
+    }
+
+    public function clear() {
+        var length = size;
+        var i = 0;
+        while (i < length) {
+            remove(members[i]);
+            length = size;
+            i++;
+        }
     }
 }

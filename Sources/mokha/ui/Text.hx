@@ -13,7 +13,7 @@ class Text extends Entity {
     /**
         Text font family.
     **/
-    public var font : Font;
+    public var font(default, set) : Font;
 
     /**
         Text background color.
@@ -28,12 +28,12 @@ class Text extends Entity {
     /**
         Text font size.
     **/
-    var size : Int;
+    public var size(default, set) : Int;
 
     /**
         Text value.
     **/
-    var value : String; 
+    public var value(default, set) : String;
 
     /**
         Creates new text object.
@@ -45,10 +45,9 @@ class Text extends Entity {
         this.font = font;
         this.size = size;
         
-        this.backgroundColor = Color.fromValue(0x00000000);
-        this.foregroundColor = Color.White;
-        this.value = "";
-        updateDimensions();
+        backgroundColor = Color.fromValue(0x00000000);
+        foregroundColor = Color.White;
+        value = "";
     }
 
     /**
@@ -56,36 +55,65 @@ class Text extends Entity {
     **/
     override public function draw(g : Graphics) : Void {
         super.draw(g);
-        g.color = this.backgroundColor;
-        g.fillRect(this.x, this.y, this.width, this.height);
-        g.color = this.foregroundColor;
-        g.font = this.font;
-        g.fontSize = this.size;
-        g.drawString(this.value, this.x, this.y);
+        
+        g.color = backgroundColor;
+        g.fillRect(x, y, width, height);
+        g.color = foregroundColor;
+        g.font = font;
+        g.fontSize = size;
+        g.drawString(value, x, y);
         g.color = Color.White;
     }
 
     /**
-        Sets text size, updating width and height in the process.
+        Updates text height.
     **/
-    public function setSize(size : Int) : Void {
+
+    function updateHeight() : Void {
+        if (font == null || size == null) return;
+        height = font.height(size);
+    }
+
+    /**
+        Updates text width.
+    **/
+    function updateWidth() : Void {
+        if (font == null || size == null || value == null) return;
+        width = font.width(size, value);
+    }
+    
+    /**
+        Sets font, updating text dimensions in the process.
+        @param  font    Font
+        @return Font
+    **/
+    @:noCompletion inline function set_font(font : Font) {
+        this.font = font;
+        updateHeight();
+        updateWidth();
+        return font;
+    }
+
+    /**
+        Sets size, updating text dimensions in the process.
+        @param  size    Size
+        @return Size
+    **/
+    @:noCompletion inline function set_size(size : Int) {
         this.size = size;
-        updateDimensions();
+        updateHeight();
+        updateWidth();
+        return size;
     }
-
+    
     /**
-        Sets text value, updating width and height in the process.
+        Sets value, updating text dimensions in the process.
+        @param  value   Value
+        @return Value
     **/
-    public function setValue(value : String) : Void {
+    @:noCompletion inline function set_value(value : String) {
         this.value = value;
-        updateDimensions();
-    }
-
-    /**
-        Updates text dimensions.
-    **/
-    function updateDimensions() : Void {
-        this.height = this.font.height(this.size);
-        this.width = this.font.width(this.size, this.value);
+        updateWidth();
+        return value;
     }
 }
