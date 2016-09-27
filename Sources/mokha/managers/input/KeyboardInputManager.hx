@@ -16,6 +16,11 @@ class KeyboardInputManager {
 		A map of keys that were pressed during a frame.
 	**/
 	public var keysPressed : Map<String, Bool>;
+
+	/**
+		A map of special keys that were pressed during a frame.
+	**/
+	public var specialKeysPressed : Map<String, Bool>;
 	
 	/**
 		`true` if any key is pressed this frame.
@@ -33,6 +38,7 @@ class KeyboardInputManager {
 	function new() : Void {
 		Keyboard.get().notify(onDown, onUp);
 		keysPressed = new Map<String, Bool>();
+		specialKeysPressed = new Map<String, Bool>();
 	}
 
 	/**
@@ -53,7 +59,7 @@ class KeyboardInputManager {
 	/**
 		Performs a check to see if a key is pressed this frame.
 		Keys are stored as lowercase strings.
-		@param	key	Keyboard key (including characters and special keys)
+		@param	key	Keyboard key
 		@return `true` if key is pressed
 	**/
 	public function isPressedKey(key : String) : Bool {
@@ -61,13 +67,33 @@ class KeyboardInputManager {
 	}
 
 	/**
+		Performs a check to see if a special key is pressed this
+		frame. Keys are stored as lowercase strings.
+		@param	key	Special keyboard key
+		@return `true` if key is pressed
+	**/
+	public function isPressedSpecialKey(key : String) : Bool {
+		return isPressed && (specialKeysPressed.exists(key));
+	}
+
+	/**
 		Performs a check to see if a key was pressed in the last
 		frame. Keys are stored as lowercase strings.
-		@param	key	Keyboard key (including characters and special keys)
+		@param	key	Keyboard key
 		@return	`true` if key was pressed
 	**/
 	public function justPressedKey(key : String) : Bool {
 		return justPressed && (keysPressed.exists(key));
+	}
+
+	/**
+		Performs a check to see if a special key was pressed in the
+		last frame. Keys are stored as lowercase strings.
+		@param	key	Keyboard key
+		@return	`true` if key was pressed
+	**/
+	public function justPressedSpecialKey(key : String) : Bool {
+		return justPressed && (specialKeysPressed.exists(key));
 	}
 
 	/**
@@ -76,8 +102,8 @@ class KeyboardInputManager {
 		@param	char	Character (if applicable)
 	**/
 	function onDown(key : Key, char : String) : Void {
-		keysPressed.set(key.getName().toLowerCase(), true);
-		keysPressed.set(char.toLowerCase(), true);
+		specialKeysPressed.set(key.getName().toLowerCase(), true);
+		if (key.match(Key.CHAR)) keysPressed.set(char.toLowerCase(), true);
 		isPressed = true;
 		justPressed = true;
 	}
@@ -87,8 +113,8 @@ class KeyboardInputManager {
 		@param	char	Character (if applicable)
 	**/
 	function onUp(key : Key, char : String) : Void {
-		keysPressed.remove(key.getName().toLowerCase());
-		keysPressed.remove(char.toLowerCase());
+		specialKeysPressed.remove(key.getName().toLowerCase());
+		if (key.match(Key.CHAR)) keysPressed.remove(char.toLowerCase());
 		isPressed = false;
 	}
 }
