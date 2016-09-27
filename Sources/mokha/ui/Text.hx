@@ -37,17 +37,18 @@ class Text extends Entity {
 
     /**
         Creates new text object.
+        @param  value   Text string
         @param  font    Text font family
         @param  size    Text font size
     **/
-    public function new(font : Font, size : Int) : Void {
+    public function new(value : String, font : Font, size : Int) : Void {
         super(0, 0, 0, 0);
         this.font = font;
         this.size = size;
+        this.value = value;
         
         backgroundColor = Color.fromValue(0x00000000);
         foregroundColor = Color.White;
-        value = "";
     }
 
     /**
