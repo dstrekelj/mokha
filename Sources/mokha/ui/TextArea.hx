@@ -39,7 +39,7 @@ class TextArea extends Entity {
 	/**
 		Lines of text that fit within the text area.
 	**/
-	var lines(default, set) : Array<String>;
+	var lines : Array<String>;
 
 	/**
 		Creates new text area.
@@ -83,6 +83,8 @@ class TextArea extends Entity {
 		text area dimensions, font family, and font size.
 	**/
 	function prepareLines() : Void {
+		if (this.value == null || this.value == "") return;
+
 		lines = new Array<String>();
 
 		var lineWidth : Float = 0;
@@ -91,25 +93,32 @@ class TextArea extends Entity {
 		
 		var wordWidth : Float = 0;
 		var linesHeight : Float = 0;
-
+		
 		// Every sentence should be its own line, if possible
 		for (sentence in ~/\n|\r/g.split(value)) {
-			if (linesHeight + lineHeight > height) {
-				break;
-			}
+			trace('linesHeight $linesHeight, lineHeight $lineHeight, height $height');
+			if (linesHeight + lineHeight > height) break;
 			// Sentences should be broken into new lines if too long
-			for (word in ~/\s/g.split(sentence)) { 		 
+			for (word in ~/\s/g.split(sentence)) {
 				wordWidth = 0;
-				for (char in (word + " ").split("")) {
+				word += " ";
+				
+				for (char in word.split("")) {
 					wordWidth += font.width(size, char);
 				}
+				
+				trace('lineWidth $lineWidth, wordWidth $wordWidth, width $width');
+				
 				if (lineWidth + wordWidth <= width) {
 					line.add(word);
+					lineWidth += wordWidth;
 				} else {
+					if (linesHeight + lineHeight > height - lineHeight) break;
 					lines.push(line.toString());
 					line = new StringBuf();
 					line.add(word);
 					lineWidth = wordWidth;
+					linesHeight += lineHeight;
 				}
 			}
 			lines.push(line.toString());
