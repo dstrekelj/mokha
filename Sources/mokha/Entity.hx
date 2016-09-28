@@ -1,6 +1,6 @@
 package mokha;
 
-import mokha.shapes.Rectangle;
+import mokha.tools.collision.Collider;
 
 import kha.graphics2.Graphics;
 
@@ -14,7 +14,7 @@ class Entity extends Object {
     **/
     public var x(default, set) : Float;
     @:noCompletion inline function set_x(x : Float) {
-        this.hitbox.x = x;
+        if (collider != null) collider.hitbox.x = x;
         return this.x = x;
     }
 
@@ -23,7 +23,7 @@ class Entity extends Object {
     **/
     public var y(default, set) : Float;
     @:noCompletion inline function set_y(y : Float) {
-        this.hitbox.y = y;
+        if (collider != null) collider.hitbox.y = y;
         return this.y = y;
     }
 
@@ -38,14 +38,9 @@ class Entity extends Object {
     public var height : Float;
 
     /**
-        Rectangular collideable area.
+        Collider object to handle collision with.
     **/
-    public var hitbox : Rectangle;
-    
-    /**
-        If true, collision logic applies.
-    **/
-    public var isCollideable : Bool;
+    public var collider : Collider;
     
     /**
         Creates new collideable entity.
@@ -56,12 +51,13 @@ class Entity extends Object {
     **/
     public function new(x : Float, y : Float, width : Float, height : Float) : Void {
         super();
-        this.hitbox = new Rectangle(x, y, width, height);
+        
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.isCollideable = true;
+        
+        collider = new Collider(x, y, width, height);
     }
 
     /**
@@ -69,10 +65,6 @@ class Entity extends Object {
     **/
     override public function draw(g : Graphics) : Void {
         super.draw(g);
-        #if mokha_debug
-        g.color = kha.Color.Red;
-        g.drawRect(this.hitbox.x, this.hitbox.y, this.hitbox.width, this.hitbox.height);
-        #end
     }
     
     /**
@@ -80,7 +72,8 @@ class Entity extends Object {
     **/
     override public function destroy() : Void {
         super.destroy();
-        this.hitbox = null;
+        
+        collider.destroy();
     }
 
     /**
@@ -88,7 +81,8 @@ class Entity extends Object {
     **/
     override public function kill() : Void {
         super.kill();
-        isCollideable = false;
+
+        collider.isCollideable = false;
     }
 
     /**
@@ -96,7 +90,8 @@ class Entity extends Object {
     **/
     override public function revive() : Void {
         super.revive();
-        isCollideable = true;
+        
+        collider.isCollideable = true;
     }
 
     /**
@@ -113,7 +108,7 @@ class Entity extends Object {
         @param  y   Vertical position
     **/
     public function setCenterPosition(x : Float, y : Float) : Void {
-        this.x = x - this.width / 2;
-        this.y = y - this.height / 2; 
+        this.x = x - width / 2;
+        this.y = y - height / 2; 
     }
 }
