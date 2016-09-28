@@ -1,6 +1,6 @@
 package mokha;
 
-import mokha.tools.collision.Collider;
+import mokha.utils.collision.Collider;
 
 import kha.graphics2.Graphics;
 

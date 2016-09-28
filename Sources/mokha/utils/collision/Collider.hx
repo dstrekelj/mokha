@@ -1,4 +1,4 @@
-package mokha.tools.collision;
+package mokha.utils.collision;
 
 import mokha.shapes.Rectangle;
 

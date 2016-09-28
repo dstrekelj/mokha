@@ -1,7 +1,7 @@
-package mokha.tools.tilemaps;
+package mokha.utils.tilemaps;
 
-import mokha.tools.tilemaps.Tile;
-import mokha.tools.tilemaps.Tilemap;
+import mokha.utils.tilemaps.Tile;
+import mokha.utils.tilemaps.Tilemap;
 
 import kha.Image;
 

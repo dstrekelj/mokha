@@ -1,9 +1,9 @@
-package mokha.utils;
+package mokha.tools;
 
 /**
 	A collection of static extensions for arrays.
 **/
-class ArrayUtils {
+class ArrayTools {
 	/**
 		Checkes whether an array contains a specific element.
 		@param	array	Array

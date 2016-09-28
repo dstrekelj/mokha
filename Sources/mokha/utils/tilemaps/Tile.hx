@@ -1,4 +1,4 @@
-package mokha.tools.tilemaps;
+package mokha.utils.tilemaps;
 
 /**
 	A tile is an element of a tilemap.

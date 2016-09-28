@@ -1,6 +1,6 @@
 package mokha;
 
-import mokha.tools.animation.Animator;
+import mokha.utils.animation.Animator;
 
 import kha.graphics2.Graphics;
 import kha.Color;

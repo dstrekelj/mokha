@@ -1,7 +1,7 @@
-package mokha.tools.animation;
+package mokha.utils.animation;
 
-import mokha.tools.animation.Animation;
-import mokha.tools.animation.AnimationFrame;
+import mokha.utils.animation.Animation;
+import mokha.utils.animation.AnimationFrame;
 import mokha.Mokha;
 import mokha.Sprite;
 

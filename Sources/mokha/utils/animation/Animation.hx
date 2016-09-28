@@ -1,4 +1,4 @@
-package mokha.tools.animation;
+package mokha.utils.animation;
 
 /**
     An animation consists of frame indices, a frame rate, and

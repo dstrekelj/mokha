@@ -1,4 +1,4 @@
-package mokha.tools.animation;
+package mokha.utils.animation;
 
 /**
 	An animation frame is a rectangular shape that is positioned
