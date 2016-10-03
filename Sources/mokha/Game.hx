@@ -35,18 +35,36 @@ class Game {
     **/
     var state : State;
 
+    /**
+        If `true`, backbuffer is cleared.
+    **/
     var backbufferClear : Bool;
+
+    /**
+        Backbuffer clear color.
+    **/
     var backbufferClearColor : Color;
 
+    /**
+        If `true`, framebuffer is cleared.
+    **/
     var framebufferClear : Bool;
+
+    /**
+        Framebuffer clear color.
+    **/
     var framebufferClearColor : Color;
 
+    /**
+        Image scale quality, in case the backbuffer is scaled to
+        framebuffer size.
+    **/
     var imageScaleQuality : ImageScaleQuality;
     
     /**
+        Creates a new game.
         @param  width   Rendering resolution width
         @param  height  Rendering resolution height
-        @param  state   Initial state
     **/
     public function new(width : Int, height : Int) : Void {
         this.width = width;
@@ -67,28 +85,36 @@ class Game {
         Mokha.renderHeight = height;
     }
 
-    public function preUpdate() : Void {
-
-    }
+    /**
+        Override this. Occurs before the current game state has been
+        updated.
+    **/
+    public function preUpdate() : Void {}
     
     /**
-        Updates current game state.
+        Override this. Updates current game state.
     **/
     public function update() : Void { 
         if (this.state != null) this.state.update();
     }
 
-    public function postUpdate() : Void {
+    /**
+        Override this. Occurs after the current game state has been
+        updated.
+    **/
+    public function postUpdate() : Void {}
 
-    }
-
-    public function preDraw(f : Framebuffer) : Void {
-
-    }
+    /**
+        Override this. Occurs before the current game state has been
+        drawn.
+        @param  f   Framebuffer
+    **/
+    public function preDraw(f : Framebuffer) : Void {}
     
     /**
-        Renders current game state. Backbuffer is scaled to fit the
-        framebuffer, which has its dimensions defined by the window.
+        Override this. Draws current game state. Backbuffer is 
+        scaled to fit the framebuffer, which has its dimensions 
+        defined by the window.
         @param  f   Framebuffer
     **/
     public function draw(f : Framebuffer) : Void {
@@ -103,13 +129,17 @@ class Game {
         fg.end();
     }
 
-    public function postDraw(f : Framebuffer) : Void {
-
-    }
+    /**
+        Override this. Occurs after the current game state has been
+        drawn.
+        @param  f   Framebuffer
+    **/
+    public function postDraw(f : Framebuffer) : Void {}
     
     /**
         Switches current state to a different one. Current state is
         destroyed before the next state is created.
+        @param  s   State class
     **/
     public function switchState(s : Class<State>) : Void {
         if (this.state != null) this.state.onDestroy();

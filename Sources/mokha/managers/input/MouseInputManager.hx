@@ -48,7 +48,14 @@ class MouseInputManager {
     **/
     public var isPressed : Bool;
 
+    /**
+        Horizontal scale factor.
+    **/
     var scaleX : Float;
+
+    /**
+        Vertical scale factor.
+    **/
     var scaleY : Float;
 
     /**
@@ -82,49 +89,65 @@ class MouseInputManager {
 
     /**
         Handles the event of a mouse button being held down.
-        @param  _b  Mouse button ID
-        @param  _x  Mouse pointer X position
-        @param  _y  Mouse pointer Y position
+        @param  b   Mouse button ID
+        @param  x   Mouse pointer X position
+        @param  y   Mouse pointer Y position
     **/
-    function onMouseDown(_b : Int, _x : Int, _y : Int) : Void {
-        buttonId = _b;
-        x = (scaleX == 1) ? _x : Std.int(_x * scaleX);
-        y = (scaleY == 1) ? _y : Std.int(_y * scaleY);
+    function onMouseDown(b : Int, x : Int, y : Int) : Void {
+        buttonId = b;
+        setX(x);
+        setY(y);
         isPressed = true;
     }
 
     /**
         Handles the event of a mouse button being released.
-        @param  _b  Mouse button ID
-        @param  _x  Mouse pointer X position
-        @param  _y  Mouse pointer Y position
+        @param  b   Mouse button ID
+        @param  x   Mouse pointer X position
+        @param  y   Mouse pointer Y position
     **/
-    function onMouseUp(_b : Int, _x : Int, _y : Int) : Void {
-        buttonId = _b;
-        x = (scaleX == 1) ? _x : Std.int(_x * scaleX);
-        y = (scaleY == 1) ? _y : Std.int(_y * scaleY);
+    function onMouseUp(b : Int, x : Int, y : Int) : Void {
+        buttonId = b;
+        setX(x);
+        setY(y);
         isPressed = false;
     }
 
     /**
         Handles the event of the mouse pointer being moved.
-        @param  _x  Mouse pointer X position
-        @param  _y  Mouse pointer Y position
-        @param  _dx Mouse pointer horizontal movement delta
-        @param  _dy Mouse pointer vertical movement delta
+        @param  x   Mouse pointer X position
+        @param  y   Mouse pointer Y position
+        @param  dx  Mouse pointer horizontal movement delta
+        @param  dy  Mouse pointer vertical movement delta
     **/
-    function onMouseMove(_x : Int, _y : Int, _dx : Int, _dy : Int) : Void {
-        x = (scaleX == 1) ? _x : Std.int(_x * scaleX);
-        y = (scaleY == 1) ? _y : Std.int(_y * scaleY);
-        dx = _dx;
-        dy = _dy;
+    function onMouseMove(x : Int, y : Int, dx : Int, dy : Int) : Void {
+        setX(x);
+        setY(y);
+        this.dx = dx;
+        this.dy = dy;
     }
 
     /**
         Handles the event of the mouse wheel being used.
-        @param  _dw Mouse wheel movement delta
+        @param  dw  Mouse wheel movement delta
     **/
-    function onMouseWheel(_dw : Int) : Void {
-        dw = _dw;
+    function onMouseWheel(dw : Int) : Void {
+        this.dw = dw;
+    }
+
+    /**
+        Sets mouse X position according to scale factor.
+        @param  x   Mouse X position
+    **/
+    inline function setX(x : Int) : Void {
+        this.x = (scaleX == 1) ? x : Std.int(x * scaleX);
+    }
+
+    /**
+        Sets mouse Y position according to scale factor.
+        @param  y   Mouse Y position
+    **/
+    inline function setY(y : Int) : Void {
+        this.y = (scaleY == 1) ? y : Std.int(y * scaleY);
     }
 }
