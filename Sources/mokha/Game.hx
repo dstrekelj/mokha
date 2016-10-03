@@ -3,6 +3,7 @@ package mokha;
 import mokha.Mokha;
 
 import kha.graphics2.ImageScaleQuality;
+import kha.Color;
 import kha.Framebuffer;
 import kha.Image;
 import kha.Scaler;
@@ -33,22 +34,41 @@ class Game {
         Reference to current state.
     **/
     var state : State;
+
+    var backbufferClear : Bool;
+    var backbufferClearColor : Color;
+
+    var framebufferClear : Bool;
+    var framebufferClearColor : Color;
+
+    var imageScaleQuality : ImageScaleQuality;
     
     /**
         @param  width   Rendering resolution width
         @param  height  Rendering resolution height
         @param  state   Initial state
     **/
-    public function new(width : Int, height : Int, state : Class<State>) : Void {
+    public function new(width : Int, height : Int) : Void {
         this.width = width;
         this.height = height;
         
-        this.backbuffer = Image.createRenderTarget(width, height);
+        backbuffer = Image.createRenderTarget(width, height);
+
+        backbufferClear = true;
+        backbufferClearColor = Color.Black;
+
+        framebufferClear = true;
+        framebufferClearColor = Color.Black;
+
+        imageScaleQuality = ImageScaleQuality.High;
         
         Mokha.game = this;
         Mokha.renderWidth = width;
         Mokha.renderHeight = height;
-        this.switchState(state);
+    }
+
+    public function preUpdate() : Void {
+
     }
     
     /**
@@ -57,22 +77,34 @@ class Game {
     public function update() : Void { 
         if (this.state != null) this.state.update();
     }
+
+    public function postUpdate() : Void {
+
+    }
+
+    public function preDraw(f : Framebuffer) : Void {
+
+    }
     
     /**
         Renders current game state. Backbuffer is scaled to fit the
         framebuffer, which has its dimensions defined by the window.
         @param  f   Framebuffer
     **/
-    public function render(f : Framebuffer) : Void {
+    public function draw(f : Framebuffer) : Void {
         var bg = this.backbuffer.g2;
-        bg.begin(true, kha.Color.Black);
+        bg.begin(backbufferClear, backbufferClearColor);
         if (state != null) state.draw(bg);
         bg.end();
         var fg = f.g2;
-        fg.begin(true, kha.Color.Blue);
-        fg.imageScaleQuality = ImageScaleQuality.High;
+        fg.begin(framebufferClear, framebufferClearColor);
+        fg.imageScaleQuality = imageScaleQuality;
         Scaler.scale(backbuffer, f, System.screenRotation);
         fg.end();
+    }
+
+    public function postDraw(f : Framebuffer) : Void {
+
     }
     
     /**

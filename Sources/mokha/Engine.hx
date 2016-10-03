@@ -58,9 +58,6 @@ class Engine {
             Assets.loadEverything(function () {
                 game = Type.createInstance(_game, []);
 
-                keyboardInputManager = KeyboardInputManager.get();
-                mouseInputManager = MouseInputManager.get();
-
                 System.notifyOnRender(render);
                 Scheduler.addTimeTask(update, 0, _frameRate);
             });
@@ -72,7 +69,9 @@ class Engine {
         @param  framebuffer Framebuffer
     **/
     static function render(framebuffer : Framebuffer) : Void {
-        game.render(framebuffer);
+        game.preDraw(framebuffer);
+        game.draw(framebuffer);
+        game.postDraw(framebuffer);
     }
 
     /**
@@ -85,9 +84,8 @@ class Engine {
         Mokha.delta = delta;
         Mokha.elapsed = elapsed;
         
+        game.preUpdate();
         game.update();
-
-        keyboardInputManager.update();
-        mouseInputManager.update();
+        game.postUpdate();
     }
 }
