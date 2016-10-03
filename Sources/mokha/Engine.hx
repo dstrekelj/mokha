@@ -1,7 +1,5 @@
 package mokha;
 
-import mokha.managers.input.KeyboardInputManager;
-import mokha.managers.input.MouseInputManager;
 import mokha.Mokha;
 
 import kha.Assets;
@@ -28,16 +26,6 @@ class Engine {
         Current game object.
     **/
     static var game : Game;
-
-    /**
-        Keyboard input manager.
-    **/
-    static var keyboardInputManager : KeyboardInputManager;
-
-    /**
-        Mouse input manager.
-    **/
-    static var mouseInputManager : MouseInputManager;
 
     /**
         Initialises the mokha "engine".
