@@ -1,5 +1,7 @@
 package mokha.managers.input;
 
+import mokha.Mokha;
+
 import kha.input.Mouse;
 
 /**
@@ -46,11 +48,17 @@ class MouseInputManager {
     **/
     public var isPressed : Bool;
 
+    var scaleX : Float;
+    var scaleY : Float;
+
     /**
         Creates new mouse input manager.
     **/
     function new() : Void {
         Mouse.get().notify(onMouseDown, onMouseUp, onMouseMove, onMouseWheel);
+        
+        scaleX = Mokha.renderWidth / Mokha.windowWidth;
+        scaleY = Mokha.renderHeight / Mokha.windowHeight;
     }
 
     /**
@@ -80,8 +88,8 @@ class MouseInputManager {
     **/
     function onMouseDown(_b : Int, _x : Int, _y : Int) : Void {
         buttonId = _b;
-        x = _x;
-        y = _y;
+        x = (scaleX == 1) ? _x : Std.int(_x * scaleX);
+        y = (scaleY == 1) ? _y : Std.int(_y * scaleY);
         isPressed = true;
     }
 
@@ -93,8 +101,8 @@ class MouseInputManager {
     **/
     function onMouseUp(_b : Int, _x : Int, _y : Int) : Void {
         buttonId = _b;
-        x = _x;
-        y = _y;
+        x = (scaleX == 1) ? _x : Std.int(_x * scaleX);
+        y = (scaleY == 1) ? _y : Std.int(_y * scaleY);
         isPressed = false;
     }
 
@@ -106,8 +114,8 @@ class MouseInputManager {
         @param  _dy Mouse pointer vertical movement delta
     **/
     function onMouseMove(_x : Int, _y : Int, _dx : Int, _dy : Int) : Void {
-        x = _x;
-        y = _y;
+        x = (scaleX == 1) ? _x : Std.int(_x * scaleX);
+        y = (scaleY == 1) ? _y : Std.int(_y * scaleY);
         dx = _dx;
         dy = _dy;
     }
