@@ -55,22 +55,22 @@ class Camera extends Object {
 				case CameraFollowStyle.LockOn:
 					transformation = FastMatrix3.translation(-target.x + viewport.width / 2, -target.y + viewport.height / 2);
 				case CameraFollowStyle.RoomByRoom:
-					if (target.x + x > viewport.width) {
+					if (target.collider.hitbox.centroidX + x > viewport.width) {
 						transformation = transformation.multmat(FastMatrix3.translation(-viewport.width, 0));
 						x += -viewport.width;
 					}
 
-					if (target.x + x < viewport.x) {
+					if (target.collider.hitbox.centroidX + x < viewport.x) {
 						transformation = transformation.multmat(FastMatrix3.translation(viewport.width, 0));
 						x += viewport.width;
 					}
 
-					if (target.y + y> viewport.height) {
+					if (target.collider.hitbox.centroidY + y> viewport.height) {
 						transformation = transformation.multmat(FastMatrix3.translation(0, -viewport.height));
 						y += -viewport.height;
 					}
 
-					if (target.y + y < viewport.y) {
+					if (target.collider.hitbox.centroidY + y < viewport.y) {
 						transformation = transformation.multmat(FastMatrix3.translation(0, viewport.height));
 						y += viewport.height;
 					}

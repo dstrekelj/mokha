@@ -23,6 +23,16 @@ class Rectangle {
         Rectangle height.
     **/
     public var height : Float;
+
+    /**
+        Centroid X position.
+    **/
+    public var centroidX(get, null) : Float;
+
+    /**
+        Centroid Y position.
+    **/
+    public var centroidY(get, null) : Float;
     
     /**
         Creates new rectangle.
@@ -100,5 +110,21 @@ class Rectangle {
         if ((this.x + this.width) < r.x) return false;
         if ((this.y + this.width) < r.y) return false;
         return true;
+    }
+
+    /**
+        Gets X position of centroid.
+        @return X position of centroid
+    **/
+    inline function get_centroidX() : Float {
+        return x + width / 2;
+    }
+
+    /**
+        Gets Y position of centroid.
+        @return Y position of centroid
+    **/
+    inline function get_centroidY() : Float {
+        return y + height / 2;
     }
 }
