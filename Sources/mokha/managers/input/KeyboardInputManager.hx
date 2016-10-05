@@ -33,6 +33,11 @@ class KeyboardInputManager {
 	public var justPressed : Bool;
 
 	/**
+		`true` if any key was released last frame.
+	**/
+	public var justReleased : Bool;
+
+	/**
 		Creates new keyboard input manager.
 	**/
 	function new() : Void {
@@ -54,6 +59,10 @@ class KeyboardInputManager {
 	**/
 	public function update() : Void {
 		justPressed = false;
+		justReleased = false;
+
+		for (key in keysPressed.keys()) keysPressed.remove(key);
+		for (key in specialKeysPressed.keys()) specialKeysPressed.remove(key);
 	}
 
 	/**
@@ -63,7 +72,7 @@ class KeyboardInputManager {
 		@return `true` if key is pressed
 	**/
 	public function isPressedKey(key : String) : Bool {
-		return isPressed && (keysPressed.exists(key));
+		return isPressed && keysPressed.exists(key) && keysPressed.get(key);
 	}
 
 	/**
@@ -73,7 +82,7 @@ class KeyboardInputManager {
 		@return `true` if key is pressed
 	**/
 	public function isPressedSpecialKey(key : String) : Bool {
-		return isPressed && (specialKeysPressed.exists(key));
+		return isPressed && specialKeysPressed.exists(key) && specialKeysPressed.get(key);
 	}
 
 	/**
@@ -83,7 +92,7 @@ class KeyboardInputManager {
 		@return	`true` if key was pressed
 	**/
 	public function justPressedKey(key : String) : Bool {
-		return justPressed && (keysPressed.exists(key));
+		return justPressed && keysPressed.exists(key) && keysPressed.get(key);
 	}
 
 	/**
@@ -93,7 +102,27 @@ class KeyboardInputManager {
 		@return	`true` if key was pressed
 	**/
 	public function justPressedSpecialKey(key : String) : Bool {
-		return justPressed && (specialKeysPressed.exists(key));
+		return justPressed && specialKeysPressed.exists(key) && specialKeysPressed.get(key);
+	}
+
+	/**
+		Performs a check to see if a key was just released in the
+		last frame. Keys are stored as lowercase strings.
+		@param	key	Keyboard key
+		@return	`true` if key was just released
+	**/
+	public function justReleasedKey(key : String) : Bool {
+		return justReleased && keysPressed.exists(key) && !keysPressed.get(key);
+	}
+
+	/**
+		Performs a check to see if a special key was just released in
+		the last frame. Keys are stored as lowercase strings.
+		@param	key	Keyboard key
+		@return	`true` if key was just released
+	**/
+	public function justReleasedSpecialKey(key : String) : Bool {
+		return justReleased && specialKeysPressed.exists(key) && !specialKeysPressed.get(key);
 	}
 
 	/**
@@ -113,8 +142,9 @@ class KeyboardInputManager {
 		@param	char	Character (if applicable)
 	**/
 	function onUp(key : Key, char : String) : Void {
-		specialKeysPressed.remove(key.getName().toLowerCase());
-		if (key.match(Key.CHAR)) keysPressed.remove(char.toLowerCase());
+		specialKeysPressed.set(key.getName().toLowerCase(), false);
+		if (key.match(Key.CHAR)) keysPressed.set(char.toLowerCase(), false);
 		isPressed = false;
+		justReleased = true;
 	}
 }
