@@ -21,9 +21,19 @@ class State {
     public function onDestroy() : Void {}
 
     /**
+        Override this. Called before state is updated.
+    **/
+    public function preUpdate() : Void {}
+
+    /**
         Override this. Called when state is updated.
     **/
     public function update() : Void {}
+
+    /**
+        Override this. Called after the state is updated.
+    **/
+    public function postUpdate() : Void {}
 
     /**
         Override this. Called when state is drawn.

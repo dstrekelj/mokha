@@ -89,7 +89,9 @@ class Game {
         Override this. Occurs before the current game state has been
         updated.
     **/
-    public function preUpdate() : Void {}
+    public function preUpdate() : Void {
+        if (this.state != null) this.state.preUpdate();
+    }
     
     /**
         Override this. Updates current game state.
@@ -102,7 +104,9 @@ class Game {
         Override this. Occurs after the current game state has been
         updated.
     **/
-    public function postUpdate() : Void {}
+    public function postUpdate() : Void {
+        if (this.state != null) this.state.postUpdate();
+    }
 
     /**
         Override this. Occurs before the current game state has been

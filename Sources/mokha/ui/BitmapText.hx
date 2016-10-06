@@ -7,22 +7,22 @@ import kha.graphics2.Graphics;
 import kha.Color;
 
 class BitmapText extends Entity {
-	public var bitmapFont : BitmapFont;
-	public var value : String;
+    public var bitmapFont : BitmapFont;
+    public var value : String;
 
-	public function new(value : String, bitmapFont : BitmapFont) : Void {
-		super(0, 0, 0, 0);
+    public function new(value : String, bitmapFont : BitmapFont) : Void {
+        super(0, 0, 0, 0);
 
-		this.value = value;
-		this.bitmapFont = bitmapFont;
-	}
+        this.value = value;
+        this.bitmapFont = bitmapFont;
+    }
 
-	override public function draw(g : Graphics) : Void {
-		super.draw(g);
+    override public function draw(g : Graphics) : Void {
+        super.draw(g);
 
-		g.color = Color.White;
-		for (i in 0...value.length) {
-			bitmapFont.drawChar(g, x + i * bitmapFont.charWidth, y, value.charAt(i));
-		}
-	}
+        g.color = Color.White;
+        for (i in 0...value.length) {
+            bitmapFont.drawChar(g, x + i * bitmapFont.charWidth, y, value.charAt(i));
+        }
+    }
 }

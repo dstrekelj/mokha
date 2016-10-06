@@ -31,8 +31,10 @@ class Sprite extends Entity {
     **/
     public function new(x : Float, y : Float, width : Float, height : Float, graphic : Image) : Void {
         super(x, y, width, height);
+
         this.graphic = graphic;
-        this.animator = new Animator(width, height, graphic.width, graphic.height);
+        
+        animator = new Animator(width, height, graphic.width, graphic.height);
     }
     
     /**
@@ -40,7 +42,8 @@ class Sprite extends Entity {
     **/
     override public function update() : Void {
         super.update();
-        this.animator.update();
+        
+        animator.update();
     }
     
     /**
@@ -50,8 +53,9 @@ class Sprite extends Entity {
     **/
     override public function draw(g : Graphics) : Void {
         super.draw(g);
+        
         g.color = Color.White;
-        this.animator.draw(g, this);
+        animator.draw(g, this);
     }
     
     /**
@@ -59,8 +63,10 @@ class Sprite extends Entity {
     **/
     override public function destroy() : Void {
         super.destroy();
-        this.animator.destroy();
-        this.animator = null;
-        this.graphic = null;
+        
+        animator.destroy();
+        
+        animator = null;
+        graphic = null;
     }
 }

@@ -1,41 +1,21 @@
 package mokha;
 
+import mokha.shapes.Rectangle;
 import mokha.utils.collision.Collider;
 
 import kha.graphics2.Graphics;
 
 /**
-    An entity is an object with physical properties: position, width,
-    and height. It has a hitbox and can therefore be collideable.
+    An entity is an object with a "physical" body which describes
+    position and size properties. It also contains a collider to make
+    it collideable.
 **/
 class Entity extends Object {
     /**
-        Entity x position. Changes apply to hitbox as well.
+        A rectangle which describes the (x, y) position and (width,
+        height) size of the entity.
     **/
-    public var x(default, set) : Float;
-    @:noCompletion inline function set_x(x : Float) {
-        if (collider != null) collider.hitbox.x = x;
-        return this.x = x;
-    }
-
-    /**
-        Entity y position. Changes apply to hitbox as well.
-    **/
-    public var y(default, set) : Float;
-    @:noCompletion inline function set_y(y : Float) {
-        if (collider != null) collider.hitbox.y = y;
-        return this.y = y;
-    }
-
-    /**
-        Entity width. Equals hitbox width by default. Changes do not apply to hitbox.
-    **/
-    public var width : Float;
-
-    /**
-        Entity height. Equals hitbox height by default. Changes do not apply to hitbox
-    **/ 
-    public var height : Float;
+    public var body : Rectangle;
 
     /**
         Collider object to handle collision with.
@@ -51,13 +31,15 @@ class Entity extends Object {
     **/
     public function new(x : Float, y : Float, width : Float, height : Float) : Void {
         super();
-        
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        
+
+        body = new Rectangle(x, y, width, height);
         collider = new Collider(x, y, width, height);
+    }
+
+    override public function postUpdate() : Void {
+        super.postUpdate();
+
+        collider.hitbox.setPosition(body.x, body.y);
     }
 
     /**
@@ -74,6 +56,9 @@ class Entity extends Object {
         super.destroy();
         
         collider.destroy();
+
+        body = null;
+        collider = null;
     }
 
     /**
@@ -92,23 +77,5 @@ class Entity extends Object {
         super.revive();
         
         collider.isCollideable = true;
-    }
-
-    /**
-        Positions entity top-left corner at (x, y) position.
-    **/
-    public function setPosition(x : Float, y : Float) : Void {
-        this.x = x;
-        this.y = y;
-    }
-    
-    /**
-        Positions entity center point at (x, y) position.
-        @param  x   Horizontal position
-        @param  y   Vertical position
-    **/
-    public function setCenterPosition(x : Float, y : Float) : Void {
-        this.x = x - width / 2;
-        this.y = y - height / 2; 
     }
 }
