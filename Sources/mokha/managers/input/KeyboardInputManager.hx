@@ -15,27 +15,37 @@ class KeyboardInputManager {
     /**
         A map of keys that were pressed during a frame.
     **/
-    public var keysPressed : Map<String, Bool>;
+    public var keysPressed(get, null) : Map<String, Bool>;
 
     /**
         A map of special keys that were pressed during a frame.
     **/
-    public var specialKeysPressed : Map<String, Bool>;
+    public var specialKeysPressed(get, null) : Map<String, Bool>;
     
     /**
         `true` if any key is pressed this frame.
     **/
-    public var isPressed : Bool;
+    public var isPressed(get, null) : Bool;
 
     /**
         `true` if any key was pressed last frame.
     **/
-    public var justPressed : Bool;
+    public var justPressed(get, null) : Bool;
 
     /**
         `true` if any key was released last frame.
     **/
-    public var justReleased : Bool;
+    public var justReleased(get, null) : Bool;
+
+    /**
+        Number of keys pressed.
+    **/
+    public var keysPressedCount(get, null) : Int;
+
+    /**
+        Number of special keys pressed.
+    **/
+    public var specialKeysPressedCount(get, null) : Int;
 
     /**
         Creates new keyboard input manager.
@@ -44,6 +54,8 @@ class KeyboardInputManager {
         Keyboard.get().notify(onDown, onUp);
         keysPressed = new Map<String, Bool>();
         specialKeysPressed = new Map<String, Bool>();
+        keysPressedCount = 0;
+        specialKeysPressedCount = 0;
     }
 
     /**
@@ -61,8 +73,15 @@ class KeyboardInputManager {
         justPressed = false;
         justReleased = false;
 
-        for (key in keysPressed.keys()) if (!keysPressed.get(key)) keysPressed.remove(key);
-        for (key in specialKeysPressed.keys()) if (!specialKeysPressed.get(key)) specialKeysPressed.remove(key);
+        for (key in keysPressed.keys())
+            if (!keysPressed.get(key))
+                keysPressed.remove(key);
+        
+        for (key in specialKeysPressed.keys())
+            if (!specialKeysPressed.get(key))
+                specialKeysPressed.remove(key);
+
+        if (keysPressedCount == 0 && specialKeysPressedCount == 0) isPressed = false;
     }
 
     /**
@@ -132,10 +151,15 @@ class KeyboardInputManager {
     **/
     function onDown(key : Key, char : String) : Void {
         specialKeysPressed.set(key.getName().toLowerCase(), true);
-        if (key.match(Key.CHAR)) keysPressed.set(char.toLowerCase(), true);
+        specialKeysPressedCount += 1;
+        if (key.match(Key.CHAR)) {
+            keysPressed.set(char.toLowerCase(), true);
+            keysPressedCount += 1;
+        }
         isPressed = true;
         justPressed = true;
     }
+
     /**
         Handles the event of a keyboard key being released.
         @param	key		Keyboard key
@@ -143,8 +167,25 @@ class KeyboardInputManager {
     **/
     function onUp(key : Key, char : String) : Void {
         specialKeysPressed.set(key.getName().toLowerCase(), false);
-        if (key.match(Key.CHAR)) keysPressed.set(char.toLowerCase(), false);
-        isPressed = false;
+        specialKeysPressedCount -= 1;
+        if (key.match(Key.CHAR)) {
+            keysPressed.set(char.toLowerCase(), false);
+            keysPressedCount -= 1;
+        }
         justReleased = true;
     }
+
+    @:noCompletion inline function get_keysPressed() return keysPressed;
+    
+    @:noCompletion inline function get_specialKeysPressed() return specialKeysPressed;
+    
+    @:noCompletion inline function get_isPressed() return isPressed;
+
+    @:noCompletion inline function get_justPressed() return justPressed;
+
+    @:noCompletion inline function get_justReleased() return justReleased;
+
+    @:noCompletion inline function get_keysPressedCount() return keysPressedCount;
+
+    @:noCompletion inline function get_specialKeysPressedCount() return specialKeysPressedCount;
 }

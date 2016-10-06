@@ -3,8 +3,6 @@ package mokha;
 import mokha.shapes.Rectangle;
 import mokha.utils.collision.Collider;
 
-import kha.graphics2.Graphics;
-
 /**
     An entity is an object with a "physical" body which describes
     position and size properties. It also contains a collider to make
@@ -40,13 +38,6 @@ class Entity extends Object {
         super.postUpdate();
 
         collider.hitbox.setPosition(body.x, body.y);
-    }
-
-    /**
-        Draws entity.
-    **/
-    override public function draw(g : Graphics) : Void {
-        super.draw(g);
     }
     
     /**
