@@ -1,18 +1,18 @@
 package mokha.math.noise;
 
 /*
-	Improved Perlin noise, by Ken Perlin.
-	Source: http://mrl.nyu.edu/~perlin/noise/
+    Improved Perlin noise, by Ken Perlin.
+    Source: http://mrl.nyu.edu/~perlin/noise/
 */
 class PerlinNoise {
-	public static function noise(x : Float, y : Float, z : Float) : Float {
-		var X = Std.int(Math.floor(x)) & 255;
-		var Y = Std.int(Math.floor(y)) & 255;
-		var Z = Std.int(Math.floor(z)) & 255;
+    public static function noise(x : Float, y : Float, z : Float) : Float {
+        var X = Std.int(Math.floor(x)) & 255;
+        var Y = Std.int(Math.floor(y)) & 255;
+        var Z = Std.int(Math.floor(z)) & 255;
 
-		x -= Math.floor(x);
-		y -= Math.floor(y);
-		z -= Math.floor(z);
+        x -= Math.floor(x);
+        y -= Math.floor(y);
+        z -= Math.floor(z);
 
         var u : Float = fade(x);
         var v : Float = fade(y);
@@ -48,7 +48,7 @@ class PerlinNoise {
                          )
                     )
                );
-	}
+    }
 
     static inline function fade(t : Float) : Float {
         return t * t * t * (t * (t * 6 - 15) + 10);
