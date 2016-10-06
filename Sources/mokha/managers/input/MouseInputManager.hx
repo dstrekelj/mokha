@@ -16,37 +16,52 @@ class MouseInputManager {
     /**
         Pointer X position.
     **/
-    public var x : Int;
+    public var x(get, null) : Int;
     
     /**
         Pointer Y position.
     **/
-    public var y : Int;
+    public var y(get, null) : Int;
     
     /**
         Mouse wheel movement delta.
     **/
-    public var dw : Int;
+    public var dw(get, null) : Int;
     
     /**
         Pointer horizontal movement delta.
     **/
-    public var dx : Int;
+    public var dx(get, null) : Int;
     
     /**
         Pointer vertical movement delta.
     **/
-    public var dy : Int;
+    public var dy(get, null) : Int;
+
+    /**
+        A map of buttons pressed during a frame.
+    **/
+    public var buttonsPressed(get, null) : Map<Int, Bool>;
     
     /**
-        ID of button pressed.
+        `true` if any button is pressed or remains pressed this frame.
     **/
-    public var buttonId : Int;
-    
+    public var isPressed(get, null) : Bool;
+
     /**
-        State of any button press.
+        `true` if any button was pressed last frame.
     **/
-    public var isPressed : Bool;
+    public var justPressed(get, null) : Bool;
+
+    /**
+        `true` if any button was released last frame.
+    **/
+    public var justReleased(get, null) : Bool;
+
+    /**
+        Number of buttons pressed.
+    **/
+    public var buttonsPressedCount(get, null) : Int;
 
     /**
         Horizontal scale factor.
@@ -63,7 +78,8 @@ class MouseInputManager {
     **/
     function new() : Void {
         Mouse.get().notify(onMouseDown, onMouseUp, onMouseMove, onMouseWheel);
-        
+        buttonsPressed = new Map<Int, Bool>();
+        buttonsPressedCount = 0;
         scaleX = Mokha.renderWidth / Mokha.windowWidth;
         scaleY = Mokha.renderHeight / Mokha.windowHeight;
     }
@@ -85,6 +101,44 @@ class MouseInputManager {
         dy = 0;
         dx = 0;
         dw = 0;
+        justPressed = false;
+        justReleased = false;
+
+        for (button in buttonsPressed.keys())
+            if(!buttonsPressed.get(button))
+                buttonsPressed.remove(button);
+        
+        if (buttonsPressedCount == 0) isPressed = false;
+    }
+
+    /**
+        Performs a check to see if a button is currently pressed.
+        Buttons are referenced by their integer IDs.
+        @param  b   Button ID
+        @return `true` if button is pressed
+    **/
+    public function isPressedButton(b : Int) : Bool {
+        return isPressed && buttonsPressed.exists(b) && buttonsPressed.get(b);
+    }
+
+    /**
+        Performs a check to see if a button was just pressed in the
+        last frame. Buttons are referenced by their integer IDs.
+        @param  b   Button ID
+        @return `true` if button was just pressed
+    **/
+    public function justPressedButton(b : Int) : Bool {
+        return justPressed && buttonsPressed.exists(b) && buttonsPressed.get(b);
+    }
+
+    /**
+        Performs a check to see if a button was just released in the
+        last frame. Buttons are referenced by their Integer IDs.
+        @param  b   Button ID
+        @return `true` if button was just released
+    **/
+    public function justReleasedButton(b : Int) : Bool {
+        return justReleased && buttonsPressed.exists(b) && !buttonsPressed.get(b);
     }
 
     /**
@@ -94,10 +148,12 @@ class MouseInputManager {
         @param  y   Mouse pointer Y position
     **/
     function onMouseDown(b : Int, x : Int, y : Int) : Void {
-        buttonId = b;
+        buttonsPressed.set(b, true);
+        buttonsPressedCount += 1;
         setX(x);
         setY(y);
         isPressed = true;
+        justPressed = true;
     }
 
     /**
@@ -107,10 +163,11 @@ class MouseInputManager {
         @param  y   Mouse pointer Y position
     **/
     function onMouseUp(b : Int, x : Int, y : Int) : Void {
-        buttonId = b;
+        buttonsPressed.set(b, false);
+        buttonsPressedCount -= 1;
         setX(x);
         setY(y);
-        isPressed = false;
+        justReleased = true;
     }
 
     /**
@@ -150,4 +207,24 @@ class MouseInputManager {
     inline function setY(y : Int) : Void {
         this.y = (scaleY == 1) ? y : Std.int(y * scaleY);
     }
+
+    @:noCompletion inline function get_x() return x;
+
+    @:noCompletion inline function get_y() return y;
+
+    @:noCompletion inline function get_dw() return dw;
+
+    @:noCompletion inline function get_dx() return dx;
+
+    @:noCompletion inline function get_dy() return dy;
+
+    @:noCompletion inline function get_buttonsPressed() return buttonsPressed;
+
+    @:noCompletion inline function get_isPressed() return isPressed;
+
+    @:noCompletion inline function get_justPressed() return justPressed;
+
+    @:noCompletion inline function get_justReleased() return justReleased;
+
+    @:noCompletion inline function get_buttonsPressedCount() return buttonsPressedCount;
 }

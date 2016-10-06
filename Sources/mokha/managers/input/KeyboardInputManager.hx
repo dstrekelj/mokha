@@ -23,7 +23,7 @@ class KeyboardInputManager {
     public var specialKeysPressed(get, null) : Map<String, Bool>;
     
     /**
-        `true` if any key is pressed this frame.
+        `true` if any key is pressed or remains pressed this frame.
     **/
     public var isPressed(get, null) : Bool;
 
