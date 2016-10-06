@@ -61,8 +61,8 @@ class KeyboardInputManager {
         justPressed = false;
         justReleased = false;
 
-        for (key in keysPressed.keys()) keysPressed.remove(key);
-        for (key in specialKeysPressed.keys()) specialKeysPressed.remove(key);
+        for (key in keysPressed.keys()) if (!keysPressed.get(key)) keysPressed.remove(key);
+        for (key in specialKeysPressed.keys()) if (!specialKeysPressed.get(key)) specialKeysPressed.remove(key);
     }
 
     /**
