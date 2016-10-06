@@ -5,25 +5,25 @@ package mokha;
 **/
 class Mokha {
     /**
-        Width in therms of window.
+        Draw window width.
     **/
     @:allow(mokha.Engine.init)
     public static var windowWidth(default, null) : Int;
 
     /**
-        Height in terms of window.
+        Draw window height.
     **/
     @:allow(mokha.Engine.init)
     public static var windowHeight(default, null) : Int;
     
     /**
-        Width in terms of rendering resolution.
+        Rendering resolution width.
     **/
     @:allow(mokha.Game)
     public static var renderWidth(default, null) : Int;
     
     /**
-        Height in terms of rendering resolution.
+        Rendering resolution height.
     **/
     @:allow(mokha.Game)
     public static var renderHeight(default, null) : Int;

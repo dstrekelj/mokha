@@ -58,11 +58,11 @@ class Text extends Entity {
         super.draw(g);
         
         g.color = backgroundColor;
-        g.fillRect(x, y, width, height);
+        g.fillRect(body.x, body.y, body.width, body.height);
         g.color = foregroundColor;
         g.font = font;
         g.fontSize = size;
-        g.drawString(value, x, y);
+        g.drawString(value, body.x, body.y);
         g.color = Color.White;
     }
 
@@ -72,7 +72,7 @@ class Text extends Entity {
 
     function updateHeight() : Void {
         if (font == null || size == null) return;
-        height = font.height(size);
+        body.height = font.height(size);
     }
 
     /**
@@ -80,7 +80,7 @@ class Text extends Entity {
     **/
     function updateWidth() : Void {
         if (font == null || size == null || value == null) return;
-        width = font.width(size, value);
+        body.width = font.width(size, value);
     }
     
     /**

@@ -66,13 +66,13 @@ class TextArea extends Entity {
         super.draw(g);
 
         g.color = backgroundColor;
-        g.fillRect(x, y, width, height);
+        g.fillRect(body.x, body.y, body.width, body.height);
         g.color = foregroundColor;
         g.font = font;
         g.fontSize = size;
         for (i in 0...lines.length) {
             if (lines[i] != "") {
-                g.drawString(lines[i], x, y + i * font.height(size));
+                g.drawString(lines[i], body.x, body.y + i * font.height(size));
             }
         }
         g.color = Color.White;
@@ -96,8 +96,7 @@ class TextArea extends Entity {
         
         // Every sentence should be its own line, if possible
         for (sentence in ~/\n|\r/g.split(value)) {
-            trace('linesHeight $linesHeight, lineHeight $lineHeight, height $height');
-            if (linesHeight + lineHeight > height) break;
+            if (linesHeight + lineHeight > body.height) break;
             // Sentences should be broken into new lines if too long
             for (word in ~/\s/g.split(sentence)) {
                 wordWidth = 0;
@@ -107,13 +106,11 @@ class TextArea extends Entity {
                     wordWidth += font.width(size, char);
                 }
                 
-                trace('lineWidth $lineWidth, wordWidth $wordWidth, width $width');
-                
-                if (lineWidth + wordWidth <= width) {
+                if (lineWidth + wordWidth <= body.width) {
                     line.add(word);
                     lineWidth += wordWidth;
                 } else {
-                    if (linesHeight + lineHeight > height - lineHeight) break;
+                    if (linesHeight + lineHeight > body.height - lineHeight) break;
                     lines.push(line.toString());
                     line = new StringBuf();
                     line.add(word);

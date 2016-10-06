@@ -106,7 +106,7 @@ class QuadTree extends Rectangle {
 
         if (this.nodes != null) {
             for (node in this.nodes) {
-                if (entity.hitbox.overlapsRectangle(node)) {
+                if (entity.collider.hitbox.overlapsRectangle(node)) {
                     environment = environment.concat(node.fetch(entity));
                 }
             }
@@ -160,7 +160,7 @@ class QuadTree extends Rectangle {
     **/
     function forward(entity : Entity) : Void {
         for (node in this.nodes) {
-            if (entity.hitbox.overlapsRectangle(node)) {
+            if (entity.collider.hitbox.overlapsRectangle(node)) {
                 node.insert(entity);
             }
         }

@@ -11,37 +11,31 @@ class AnimationFrame {
         X position on sprite sheet.
     **/
     public var x(get, null) : Float;
-    inline function get_x() return this.x;
 
     /**
         Y position on sprite sheet.
     **/
     public var y(get, null) : Float;
-    inline function get_y() return this.y;
 
     /**
         Width.
     **/
     public var width(get, null) : Float;
-    inline function get_width() return this.width;
 
     /**
         Height.
     **/
     public var height(get, null) : Float;
-    inline function get_height() return this.height;
 
     /**
         Row index in sprite sheet.
     **/
     public var row(get, null) : Int;
-    inline function get_row() return this.row;
 
     /**
         Column index in sprite sheet.
     **/
     public var column(get, null) : Int;
-    inline function get_column() return this.column;
 
     /**
         Creates new animation frame.
@@ -65,4 +59,16 @@ class AnimationFrame {
         this.y = this.row * this.height;
         this.x = this.column * this.width;
     }
+    
+    @:noCompletion inline function get_x() return this.x;
+    
+    @:noCompletion inline function get_y() return this.y;
+    
+    @:noCompletion inline function get_width() return this.width;
+    
+    @:noCompletion inline function get_height() return this.height;
+    
+    @:noCompletion inline function get_row() return this.row;
+    
+    @:noCompletion inline function get_column() return this.column;
 }
