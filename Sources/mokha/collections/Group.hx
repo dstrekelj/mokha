@@ -1,4 +1,4 @@
-package mokha.groups;
+package mokha.collections;
 
 import mokha.Object;
 
