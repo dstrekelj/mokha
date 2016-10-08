@@ -57,9 +57,7 @@ class Engine {
         @param  framebuffer Framebuffer
     **/
     static function render(framebuffer : Framebuffer) : Void {
-        game.preDraw(framebuffer);
         game.draw(framebuffer);
-        game.postDraw(framebuffer);
     }
 
     /**
@@ -72,8 +70,6 @@ class Engine {
         Mokha.delta = delta;
         Mokha.elapsed = elapsed;
         
-        game.preUpdate();
         game.update();
-        game.postUpdate();
     }
 }

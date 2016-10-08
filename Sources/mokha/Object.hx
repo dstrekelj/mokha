@@ -26,25 +26,39 @@ class Object {
     }
 
     /**
-        Override this. Intended for possible setup lines.
+        Override this. Intended for pre-collision logic and similar
+        applications.
     **/
     public function preUpdate() : Void {}
     
     /**
-        Override this. Intended for game logic and property updating.
+        Override this. Intended for collision logic.
     **/
     public function update() : Void {}
 
     /**
-        Override this. Intended for hitbox updating and the like.
+        Override this. Intended for post-collision updates, state
+        checks, etc.
     **/
     public function postUpdate() : Void {}
     
+    /**
+        Override this. Intended for a first pass of drawing.
+        @param  g  G2 API access to framebuffer
+    **/
+    public function preDraw(g : Graphics) : Void {}
+
     /**
         Override this. Intended for drawing to framebuffer.
         @param  g  G2 API access to framebuffer
     **/
     public function draw(g : Graphics) : Void {}
+    
+    /**
+        Override this. Intended for post-process or debug drawing.
+        @param  g  G2 API access to framebuffer
+    **/
+    public function postDraw(g : Graphics) : Void {}
     
     /**
         Override this. Intended for nulling references to objects.

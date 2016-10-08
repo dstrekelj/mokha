@@ -31,12 +31,22 @@ class State {
     public function update() : Void {}
 
     /**
-        Override this. Called after the state is updated.
+        Override this. Called after state is updated.
     **/
     public function postUpdate() : Void {}
+
+    /**
+        Override this. Called before state is drawn.
+    **/
+    public function preDraw(g : Graphics) : Void {}
 
     /**
         Override this. Called when state is drawn.
     **/
     public function draw(g : Graphics) : Void {}
+
+    /**
+        Override this. Called after state is drawn.
+    **/
+    public function postDraw(g : Graphics) : Void {}
 }

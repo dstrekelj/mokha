@@ -84,36 +84,17 @@ class Game {
         Mokha.renderWidth = width;
         Mokha.renderHeight = height;
     }
-
-    /**
-        Override this. Occurs before the current game state has been
-        updated.
-    **/
-    public function preUpdate() : Void {
-        if (this.state != null) this.state.preUpdate();
-    }
     
     /**
         Override this. Updates current game state.
     **/
     public function update() : Void { 
-        if (this.state != null) this.state.update();
+        if (this.state != null) {
+            this.state.preUpdate();
+            this.state.update();
+            this.state.postUpdate();
+        }
     }
-
-    /**
-        Override this. Occurs after the current game state has been
-        updated.
-    **/
-    public function postUpdate() : Void {
-        if (this.state != null) this.state.postUpdate();
-    }
-
-    /**
-        Override this. Occurs before the current game state has been
-        drawn.
-        @param  f   Framebuffer
-    **/
-    public function preDraw(f : Framebuffer) : Void {}
     
     /**
         Override this. Draws current game state. Backbuffer is 
@@ -124,7 +105,11 @@ class Game {
     public function draw(f : Framebuffer) : Void {
         var bg = this.backbuffer.g2;
         bg.begin(backbufferClear, backbufferClearColor);
-        if (state != null) state.draw(bg);
+        if (state != null) {
+            state.preDraw(bg);
+            state.draw(bg);
+            state.postDraw(bg);
+        }
         bg.end();
         var fg = f.g2;
         fg.begin(framebufferClear, framebufferClearColor);
@@ -132,13 +117,6 @@ class Game {
         Scaler.scale(backbuffer, f, System.screenRotation);
         fg.end();
     }
-
-    /**
-        Override this. Occurs after the current game state has been
-        drawn.
-        @param  f   Framebuffer
-    **/
-    public function postDraw(f : Framebuffer) : Void {}
     
     /**
         Switches current state to a different one. Current state is
