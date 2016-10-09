@@ -1,5 +1,7 @@
 package mokha;
 
+import mokha.utils.transformation.Transformer;
+
 import kha.graphics2.Graphics;
 
 /**
@@ -16,13 +18,20 @@ class Object {
         If `true`, object is drawn. Default is `true`.
     **/
     public var isVisible : Bool;
+
+    /**
+        Handles transformations made to this object.
+    **/
+    public var transformer : Transformer;
     
     /**
         Creates a new active and visible object.
     **/
     public function new() : Void {
-        this.isActive = true;
-        this.isVisible = true;
+        isActive = true;
+        isVisible = true;
+        
+        transformer = new Transformer();
     }
 
     /**
@@ -69,15 +78,15 @@ class Object {
         Makes the object inactive and invisible.
     **/
     public function kill() : Void {
-        this.isActive = false;
-        this.isVisible = false;
+        isActive = false;
+        isVisible = false;
     }
     
     /**
         Makes the object active and visible.
     **/
     public function revive() : Void {
-        this.isActive = true;
-        this.isVisible = true;
+        isActive = true;
+        isVisible = true;
     }
 }
