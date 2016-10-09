@@ -7,9 +7,14 @@ import mokha.shapes.Rectangle;
 **/
 class Collider {
     /**
+        Reference to body.
+    **/
+    public var body : Rectangle;
+
+    /**
         Rectangular hitbox or bounding box.
     **/
-    public var hitbox : Rectangle;
+    public var hitbox(get, null) : Rectangle;
 
     /**
         If `true`, overlap and collision checks can be performed.
@@ -25,6 +30,7 @@ class Collider {
         @return	Collider
     **/
     public function new(x : Float, y : Float, width : Float, height : Float) : Void {
+        body = new Rectangle(0, 0, 0, 0);
         hitbox = new Rectangle(x, y, width, height);
         isCollideable = true;
     }
@@ -33,6 +39,7 @@ class Collider {
         Cleans up references.
     **/
     public function destroy() : Void {
+        body = null;
         hitbox = null;
     }
 
@@ -44,5 +51,10 @@ class Collider {
     **/
     public function detectOverlap(collider : Collider) : Bool {
         return isCollideable && collider.isCollideable ? hitbox.overlapsRectangle(collider.hitbox) : false;
+    }
+
+    @:noCompletion inline function get_hitbox() : Rectangle {
+        hitbox.setPosition(body.x, body.y);
+        return hitbox;
     }
 }

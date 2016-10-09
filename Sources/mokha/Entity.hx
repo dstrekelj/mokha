@@ -33,13 +33,8 @@ class Entity extends Object {
         body = new Rectangle(x, y, width, height);
         collider = new Collider(x, y, width, height);
 
+        collider.body = body;
         transformer.body = body;
-    }
-
-    override public function postUpdate() : Void {
-        super.postUpdate();
-
-        collider.hitbox.setPosition(body.x, body.y);
     }
     
     /**

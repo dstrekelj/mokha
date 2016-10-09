@@ -89,11 +89,7 @@ class Game {
         Override this. Updates current game state.
     **/
     public function update() : Void { 
-        if (this.state != null) {
-            this.state.preUpdate();
-            this.state.update();
-            this.state.postUpdate();
-        }
+        if (this.state != null) this.state.update();
     }
     
     /**
@@ -105,11 +101,7 @@ class Game {
     public function draw(f : Framebuffer) : Void {
         var bg = this.backbuffer.g2;
         bg.begin(backbufferClear, backbufferClearColor);
-        if (state != null) {
-            state.preDraw(bg);
-            state.draw(bg);
-            state.postDraw(bg);
-        }
+        if (state != null) state.draw(bg);
         bg.end();
         var fg = f.g2;
         fg.begin(framebufferClear, framebufferClearColor);

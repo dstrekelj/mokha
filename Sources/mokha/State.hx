@@ -42,11 +42,6 @@ class State {
     public function onDestroy() : Void {}
 
     /**
-        Override this. Called before state is updated.
-    **/
-    public function preUpdate() : Void {}
-
-    /**
         Override this. Called when state is updated.
     **/
     public function update() : Void {
@@ -54,18 +49,6 @@ class State {
 
         camera.update();
     }
-
-    /**
-        Override this. Called after state is updated.
-    **/
-    public function postUpdate() : Void {
-        for (object in objects) object.postUpdate();
-    }
-
-    /**
-        Override this. Called before state is drawn.
-    **/
-    public function preDraw(g : Graphics) : Void {}
 
     /**
         Override this. Called when state is drawn.
@@ -79,11 +62,6 @@ class State {
             g.popTransformation();
         }
     }
-
-    /**
-        Override this. Called after state is drawn.
-    **/
-    public function postDraw(g : Graphics) : Void {}
 
     /**
         Adds object to state objects.
