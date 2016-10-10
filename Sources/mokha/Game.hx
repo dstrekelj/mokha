@@ -16,16 +16,6 @@ import kha.System;
 **/
 class Game {
     /**
-        Rendering resolution width.
-    **/
-    var width : Int;
-
-    /**
-        Rendering resolution height.
-    **/
-    var height : Int;
-
-    /**
         Backbuffer to which current state draws.
     **/
     var backbuffer : Image;
@@ -36,60 +26,45 @@ class Game {
     var state : State;
 
     /**
-        If `true`, backbuffer is cleared.
-    **/
-    var backbufferClear : Bool;
-
-    /**
-        Backbuffer clear color.
-    **/
-    var backbufferClearColor : Color;
-
-    /**
-        If `true`, framebuffer is cleared.
-    **/
-    var framebufferClear : Bool;
-
-    /**
-        Framebuffer clear color.
-    **/
-    var framebufferClearColor : Color;
-
-    /**
         Image scale quality, in case the backbuffer is scaled to
         framebuffer size.
     **/
     var imageScaleQuality : ImageScaleQuality;
+
+    /**
+        Game configuration structure.
+    **/
+    var config : GameConfig;
     
     /**
         Creates a new game.
-        @param  width   Rendering resolution width
-        @param  height  Rendering resolution height
+        @param  config  Game configuration structure
     **/
-    public function new(width : Int, height : Int) : Void {
-        this.width = width;
-        this.height = height;
+    public function new(config : GameConfig) : Void {
+        if (config.antiAlias == null) config.antiAlias = true;
+        if (config.width == null) config.width = Mokha.windowWidth;
+        if (config.height == null) config.height = Mokha.windowHeight;
+        if (config.backbuffer == null) config.backbuffer = { clear : true, color: Color.Black };
+        if (config.framebuffer == null) config.framebuffer = { clear : true, color: Color.Black };
+
+        this.config = config;
         
-        backbuffer = Image.createRenderTarget(width, height);
+        backbuffer = Image.createRenderTarget(config.width, config.height);
 
-        backbufferClear = true;
-        backbufferClearColor = Color.Black;
+        imageScaleQuality = config.antiAlias ? ImageScaleQuality.High : ImageScaleQuality.Low;
 
-        framebufferClear = true;
-        framebufferClearColor = Color.Black;
-
-        imageScaleQuality = ImageScaleQuality.High;
-        
         Mokha.game = this;
-        Mokha.renderWidth = width;
-        Mokha.renderHeight = height;
+        Mokha.renderWidth = config.width;
+        Mokha.renderHeight = config.height;
+
+        switchState(config.state);
     }
     
     /**
         Override this. Updates current game state.
     **/
-    public function update() : Void { 
-        if (this.state != null) this.state.update();
+    public function update() : Void {
+        if (state != null) state.update();
     }
     
     /**
@@ -100,11 +75,14 @@ class Game {
     **/
     public function draw(f : Framebuffer) : Void {
         var bg = this.backbuffer.g2;
-        bg.begin(backbufferClear, backbufferClearColor);
+        
+        bg.begin(config.backbuffer.clear, config.backbuffer.color);
         if (state != null) state.draw(bg);
         bg.end();
+        
         var fg = f.g2;
-        fg.begin(framebufferClear, framebufferClearColor);
+        
+        fg.begin(config.framebuffer.clear, config.framebuffer.color);
         fg.imageScaleQuality = imageScaleQuality;
         Scaler.scale(backbuffer, f, System.screenRotation);
         fg.end();
@@ -113,11 +91,39 @@ class Game {
     /**
         Switches current state to a different one. Current state is
         destroyed before the next state is created.
-        @param  s   State class
+        @param  state   State class
     **/
-    public function switchState(s : Class<State>) : Void {
+    public function switchState(state : Class<State>) : Void {
         if (this.state != null) this.state.onDestroy();
-        this.state = Type.createInstance(s, []);
+        this.state = Type.createInstance(state, []);
         this.state.onCreate();
     }
+}
+
+/**
+    Game configuration options.
+    @param  state           Initial game state
+    @param  ?width          Render width
+    @param  ?height         Render height
+    @param  ?backbuffer     Backbuffer configuration
+    @param  ?framebuffer    Framebuffer configuration
+    @param  ?antiAlias      If `true`, backbuffer scaling will be anti-aliased
+**/
+typedef GameConfig = {
+    state : Class<State>,
+    ?width : Int,
+    ?height : Int,
+    ?backbuffer : BufferConfig,
+    ?framebuffer : BufferConfig,
+    ?antiAlias : Bool
+}
+
+/**
+    Buffer configuration options.
+    @param  clear   If `true`, buffer is cleared
+    @param  color   Buffer clear color
+**/
+typedef BufferConfig = {
+    clear : Bool,
+    color : Color
 }
