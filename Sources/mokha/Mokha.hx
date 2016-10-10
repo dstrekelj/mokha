@@ -7,13 +7,13 @@ class Mokha {
     /**
         Draw window width.
     **/
-    @:allow(mokha.Engine.init)
+    @:allow(mokha.Engine)
     public static var windowWidth(default, null) : Int;
 
     /**
         Draw window height.
     **/
-    @:allow(mokha.Engine.init)
+    @:allow(mokha.Engine)
     public static var windowHeight(default, null) : Int;
     
     /**
@@ -31,13 +31,13 @@ class Mokha {
     /**
         Total time elapsed.
     **/
-    @:allow(mokha.Engine.update)
+    @:allow(mokha.Engine)
     public static var elapsed(default, null) : Float;
 
     /**
         Delta time between frames.
     **/
-    @:allow(mokha.Engine.update)
+    @:allow(mokha.Engine)
     public static var delta(default, null) : Float;
     
     /**

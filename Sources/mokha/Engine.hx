@@ -13,41 +13,36 @@ import kha.System;
 **/
 class Engine {
     /**
-        Total elapsed time.
-    **/
-    static var elapsed : Float;
-
-    /**
-        Time elapsed between frames.
-    **/
-    static var delta : Float;
-
-    /**
         Current game object.
     **/
     static var game : Game;
 
     /**
         Initialises the mokha "engine".
-        @param  _game       Game object
-        @param  _title      Window title
-        @param  _width      Window width
-        @param  _height     Window height
-        @param  _frameRate  Update frame rate
+        @param  config  Engine configuration structure
     **/
-    public static function init(_game : Class<Game>, _title : String, _width : Int, _height : Int, _frameRate : Float) : Void {
-        elapsed = 0;
-        delta = 0;
-        
-        System.init({ title: _title, width: _width, height: _height }, function () {
-            Mokha.windowWidth = _width;
-            Mokha.windowHeight = _height;
+    public static function init(config : EngineConfig) : Void {
+        if (config.title == null) config.title = "Mokha";
+        if (config.frameRate == null) config.frameRate = 1 / 60;
+
+        var systemOptions : SystemOptions = {
+            title: config.title,
+            width: config.width,
+            height: config.height,
+            samplesPerPixel: config.antiAliasing
+        };
+
+        System.init(systemOptions, function () {
+            Mokha.elapsed = 0;
+            Mokha.delta = 0;
+            Mokha.windowWidth = config.width;
+            Mokha.windowHeight = config.height;
             
             Assets.loadEverything(function () {
-                game = Type.createInstance(_game, []);
+                game = Type.createInstance(config.game, []);
 
                 System.notifyOnRender(render);
-                Scheduler.addTimeTask(update, 0, _frameRate);
+                Scheduler.addTimeTask(update, 0, config.frameRate);
             });
         });
     }
@@ -64,12 +59,27 @@ class Engine {
         Updates game and engine parameters.
     **/
     static function update() : Void {
-        delta = Scheduler.time() - elapsed;
-        elapsed = Scheduler.time();
-
-        Mokha.delta = delta;
-        Mokha.elapsed = elapsed;
+        Mokha.delta = Scheduler.time() - Mokha.elapsed;
+        Mokha.elapsed = Scheduler.time();
         
         game.update();
     }
+}
+
+/**
+    Engine configuration options.
+    @param  game            Game class
+    @param  ?frameRate      Game frame rate, defaults to 1 / 60
+    @param  ?height         Window height
+    @param  ?antiAliasing   Number of samples per pixel, defaults to 1 (no anti-aliasing)
+    @param  ?title          Window title
+    @param  ?width          Window width
+**/
+typedef EngineConfig = {
+    game : Class<Game>,
+    ?frameRate : Float,
+    ?height : Int,
+    ?antiAliasing : Int,
+    ?title : String,
+    ?width : Int
 }
