@@ -43,6 +43,7 @@ class Text extends Entity {
     **/
     public function new(value : String, font : Font, size : Int) : Void {
         super(0, 0, 0, 0);
+        
         this.font = font;
         this.size = size;
         this.value = value;

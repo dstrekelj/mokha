@@ -13,12 +13,14 @@ class KeyboardInputManager {
     static var instance : KeyboardInputManager;
 
     /**
-        A map of keys that were pressed during a frame.
+        A map of keys that are or were pressed during this frame.
+        If value is `true`, key remains pressed.
     **/
     public var keysPressed(get, null) : Map<String, Bool>;
 
     /**
-        A map of special keys that were pressed during a frame.
+        A map of special keys that are or were pressed during this
+        frame. If value is `true`, key remains pressed.
     **/
     public var specialKeysPressed(get, null) : Map<String, Bool>;
     
@@ -28,12 +30,24 @@ class KeyboardInputManager {
     public var isPressed(get, null) : Bool;
 
     /**
-        `true` if any key was pressed last frame.
+        `true` if any key was pressed for this frame.
     **/
     public var justPressed(get, null) : Bool;
 
     /**
-        `true` if any key was released last frame.
+        Last key pressed in this frame. Equal to empty string
+        if no key was pressed.
+    **/
+    public var justPressedKey(get, null) : String;
+
+    /**
+        Last special key pressed in this frame. Equal to empty
+        string if no special key was pressed.
+    **/
+    public var justPressedSpecialKey(get, null) : String;
+
+    /**
+        `true` if any key was released this frame.
     **/
     public var justReleased(get, null) : Bool;
 
@@ -46,6 +60,18 @@ class KeyboardInputManager {
         Number of special keys pressed.
     **/
     public var specialKeysPressedCount(get, null) : Int;
+
+    /**
+        Last key released in this frame. Equal to empty string if no
+        key was released. 
+    **/
+    public var justReleasedKey(get, null) : String;
+
+    /**
+        Last special key released in this frame. Equal to empty
+        string if no special key was released.
+    **/
+    public var justReleasedSpecialKey(get, null) : String;
 
     /**
         Creates new keyboard input manager.
@@ -71,17 +97,28 @@ class KeyboardInputManager {
     **/
     public function update() : Void {
         justPressed = false;
+        justPressedKey = "";
+        justPressedSpecialKey = "";
+
         justReleased = false;
+        justReleasedKey = "";
+        justReleasedSpecialKey = "";
 
-        for (key in keysPressed.keys())
-            if (!keysPressed.get(key))
+        for (key in keysPressed.keys()) {
+            if (!keysPressed.get(key)) {
                 keysPressed.remove(key);
+            }
+        }
         
-        for (key in specialKeysPressed.keys())
-            if (!specialKeysPressed.get(key))
+        for (key in specialKeysPressed.keys()) {
+            if (!specialKeysPressed.get(key)) {
                 specialKeysPressed.remove(key);
+            }
+        }
 
-        if (keysPressedCount == 0 && specialKeysPressedCount == 0) isPressed = false;
+        if (keysPressedCount == 0 && specialKeysPressedCount == 0) {
+            isPressed = false;
+        }
     }
 
     /**
@@ -105,57 +142,21 @@ class KeyboardInputManager {
     }
 
     /**
-        Performs a check to see if a key was pressed in the last
-        frame. Keys are stored as lowercase strings.
-        @param	key	Keyboard key
-        @return	`true` if key was pressed
-    **/
-    public function justPressedKey(key : String) : Bool {
-        return justPressed && keysPressed.exists(key) && keysPressed.get(key);
-    }
-
-    /**
-        Performs a check to see if a special key was pressed in the
-        last frame. Keys are stored as lowercase strings.
-        @param	key	Keyboard key
-        @return	`true` if key was pressed
-    **/
-    public function justPressedSpecialKey(key : String) : Bool {
-        return justPressed && specialKeysPressed.exists(key) && specialKeysPressed.get(key);
-    }
-
-    /**
-        Performs a check to see if a key was just released in the
-        last frame. Keys are stored as lowercase strings.
-        @param	key	Keyboard key
-        @return	`true` if key was just released
-    **/
-    public function justReleasedKey(key : String) : Bool {
-        return justReleased && keysPressed.exists(key) && !keysPressed.get(key);
-    }
-
-    /**
-        Performs a check to see if a special key was just released in
-        the last frame. Keys are stored as lowercase strings.
-        @param	key	Keyboard key
-        @return	`true` if key was just released
-    **/
-    public function justReleasedSpecialKey(key : String) : Bool {
-        return justReleased && specialKeysPressed.exists(key) && !specialKeysPressed.get(key);
-    }
-
-    /**
         Handles the event of a keyboard key being held down.
         @param	key		Keyboard key
         @param	char	Character (if applicable)
     **/
     function onDown(key : Key, char : String) : Void {
-        specialKeysPressed.set(key.getName().toLowerCase(), true);
+        justPressedSpecialKey = key.getName().toLowerCase();
+        specialKeysPressed.set(justPressedSpecialKey, true);
         specialKeysPressedCount += 1;
+        
         if (key.match(Key.CHAR)) {
-            keysPressed.set(char.toLowerCase(), true);
+            justPressedKey = char.toLowerCase();
+            keysPressed.set(justPressedKey, true);
             keysPressedCount += 1;
         }
+
         isPressed = true;
         justPressed = true;
     }
@@ -166,24 +167,36 @@ class KeyboardInputManager {
         @param	char	Character (if applicable)
     **/
     function onUp(key : Key, char : String) : Void {
-        specialKeysPressed.set(key.getName().toLowerCase(), false);
+        justReleasedSpecialKey = key.getName().toLowerCase();
+        specialKeysPressed.set(justReleasedSpecialKey, false);
         specialKeysPressedCount -= 1;
+
         if (key.match(Key.CHAR)) {
-            keysPressed.set(char.toLowerCase(), false);
+            justReleasedKey = char.toLowerCase();
+            keysPressed.set(justReleasedKey, false);
             keysPressedCount -= 1;
         }
+
         justReleased = true;
     }
 
     @:noCompletion inline function get_keysPressed() return keysPressed;
-    
+
     @:noCompletion inline function get_specialKeysPressed() return specialKeysPressed;
-    
+
     @:noCompletion inline function get_isPressed() return isPressed;
 
     @:noCompletion inline function get_justPressed() return justPressed;
 
+    @:noCompletion inline function get_justPressedKey() return justPressedKey;
+
+    @:noCompletion inline function get_justPressedSpecialKey() return justPressedSpecialKey;
+
     @:noCompletion inline function get_justReleased() return justReleased;
+
+    @:noCompletion inline function get_justReleasedKey() return justReleasedKey;
+
+    @:noCompletion inline function get_justReleasedSpecialKey() return justReleasedSpecialKey;
 
     @:noCompletion inline function get_keysPressedCount() return keysPressedCount;
 

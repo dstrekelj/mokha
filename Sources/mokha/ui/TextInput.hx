@@ -32,15 +32,13 @@ class TextInput extends Text {
         @param	keys	Keyboard input manager
     **/
     public function handleInput(keys : KeyboardInputManager) : Void {
-        if (keys.justPressedSpecialKey("char")) {
-            for (key in keys.keysPressed.keys()) {
-                if (rule.match(key)) {
-                    value += key;
-                }
+        if (keys.justPressedSpecialKey == "char") {
+            if (keys.justPressedKey != null && rule.match(keys.justPressedKey)) {
+                value += keys.justPressedKey;
             }
         }
 
-        if (keys.justPressedSpecialKey("backspace")) {
+        if (keys.justPressedSpecialKey == "backspace") {
             if (value.length > 0) {
                 value = value.substr(0, value.length - 1);
             }
