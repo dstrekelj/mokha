@@ -23,6 +23,8 @@ class Engine {
     **/
     public static function init(config : EngineConfig) : Void {
         if (config.title == null) config.title = "Mokha";
+        if (config.width == null) config.width = 640;
+        if (config.height == null) config.height = 480;
         if (config.frameRate == null) config.frameRate = 1 / 60;
 
         var systemOptions : SystemOptions = {
@@ -33,14 +35,14 @@ class Engine {
         };
 
         System.init(systemOptions, function () {
-            Mokha.elapsed = 0;
-            Mokha.delta = 0;
-            Mokha.windowWidth = config.width;
-            Mokha.windowHeight = config.height;
-            
             Assets.loadEverything(function () {
-                game = Type.createInstance(config.game, []);
+                Mokha.elapsed = 0;
+                Mokha.delta = 0;
+                Mokha.windowWidth = System.windowWidth();
+                Mokha.windowHeight = System.windowHeight();
 
+                game = Type.createInstance(config.game, []);
+            
                 System.notifyOnRender(render);
                 Scheduler.addTimeTask(update, 0, config.frameRate);
             });
