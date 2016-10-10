@@ -40,8 +40,8 @@ class Sprite extends Entity {
     /**
         Updates sprite and its animator.
     **/
-    override public function postUpdate() : Void {
-        super.postUpdate();
+    override public function update() : Void {
+        super.update();
         
         animator.update();
     }

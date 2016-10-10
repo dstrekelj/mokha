@@ -74,7 +74,7 @@ class Game {
         @param  f   Framebuffer
     **/
     public function draw(f : Framebuffer) : Void {
-        var bg = this.backbuffer.g2;
+        var bg = backbuffer.g2;
         
         bg.begin(config.backbuffer.clear, config.backbuffer.color);
         if (state != null) state.draw(bg);
