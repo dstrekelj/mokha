@@ -59,11 +59,11 @@ class Text extends Entity {
         super.draw(g);
         
         g.color = backgroundColor;
-        g.fillRect(body.x, body.y, body.width, body.height);
+        g.fillRect(0, 0, body.width, body.height);
         g.color = foregroundColor;
         g.font = font;
         g.fontSize = size;
-        g.drawString(value, body.x, body.y);
+        g.drawString(value, 0, 0);
         g.color = Color.White;
     }
 

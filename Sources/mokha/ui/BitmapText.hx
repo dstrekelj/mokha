@@ -22,7 +22,7 @@ class BitmapText extends Entity {
 
         g.color = Color.White;
         for (i in 0...value.length) {
-            bitmapFont.drawChar(g, body.x + i * bitmapFont.charWidth, body.y, value.charAt(i));
+            bitmapFont.drawChar(g, i * bitmapFont.charWidth, 0, value.charAt(i));
         }
     }
 }

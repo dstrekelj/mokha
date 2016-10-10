@@ -66,13 +66,13 @@ class TextArea extends Entity {
         super.draw(g);
 
         g.color = backgroundColor;
-        g.fillRect(body.x, body.y, body.width, body.height);
+        g.fillRect(0, 0, body.width, body.height);
         g.color = foregroundColor;
         g.font = font;
         g.fontSize = size;
         for (i in 0...lines.length) {
             if (lines[i] != "") {
-                g.drawString(lines[i], body.x, body.y + i * font.height(size));
+                g.drawString(lines[i], 0, i * font.height(size));
             }
         }
         g.color = Color.White;
