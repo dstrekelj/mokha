@@ -41,7 +41,7 @@ class Game {
         @param  config  Game configuration structure
     **/
     public function new(config : GameConfig) : Void {
-        if (config.antiAlias == null) config.antiAlias = true;
+        if (config.smoothScaling == null) config.smoothScaling = true;
         if (config.width == null) config.width = Mokha.windowWidth;
         if (config.height == null) config.height = Mokha.windowHeight;
         if (config.backbuffer == null) config.backbuffer = { clear : true, color: Color.Black };
@@ -51,7 +51,7 @@ class Game {
         
         backbuffer = Image.createRenderTarget(config.width, config.height);
 
-        imageScaleQuality = config.antiAlias ? ImageScaleQuality.High : ImageScaleQuality.Low;
+        imageScaleQuality = config.smoothScaling ? ImageScaleQuality.High : ImageScaleQuality.Low;
 
         Mokha.game = this;
         Mokha.renderWidth = config.width;
@@ -107,7 +107,7 @@ class Game {
     @param  ?height         Render height
     @param  ?backbuffer     Backbuffer configuration
     @param  ?framebuffer    Framebuffer configuration
-    @param  ?antiAlias      If `true`, backbuffer scaling will be anti-aliased
+    @param  ?smoothScaling  If `true`, backbuffer scaling will be anti-aliased
 **/
 typedef GameConfig = {
     state : Class<State>,
@@ -115,7 +115,7 @@ typedef GameConfig = {
     ?height : Int,
     ?backbuffer : BufferConfig,
     ?framebuffer : BufferConfig,
-    ?antiAlias : Bool
+    ?smoothScaling : Bool
 }
 
 /**
