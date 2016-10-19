@@ -44,7 +44,13 @@ class State {
         Override this. Called when states are switched, before the
         next state is created.
     **/
-    public function onDestroy() : Void {}
+    public function onDestroy() : Void {
+        for (object in objects) object.destroy();
+        camera.destroy();
+
+        objects = null;
+        camera = null;
+    }
 
     /**
         Override this. Called when state is updated.
