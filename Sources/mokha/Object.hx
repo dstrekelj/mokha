@@ -48,7 +48,11 @@ class Object {
     /**
         Override this. Intended for nulling references to objects.
     **/
-    public function destroy() : Void {}
+    public function destroy() : Void {
+        transformer.destroy();
+
+        transformer = null;
+    }
     
     /**
         Makes the object inactive and invisible.
