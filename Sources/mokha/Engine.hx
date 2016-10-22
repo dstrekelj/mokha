@@ -38,8 +38,8 @@ class Engine {
             Assets.loadEverything(function () {
                 Mokha.elapsed = 0;
                 Mokha.delta = 0;
-                Mokha.windowWidth = System.windowWidth();
-                Mokha.windowHeight = System.windowHeight();
+                Mokha.windowWidth = systemOptions.width;
+                Mokha.windowHeight = systemOptions.height;
 
                 game = Type.createInstance(config.game, []);
             
