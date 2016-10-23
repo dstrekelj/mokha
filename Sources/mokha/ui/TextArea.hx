@@ -54,6 +54,8 @@ class TextArea extends Entity {
         this.font = font;
         this.size = size;
 
+        lines = new Array<String>();
+
         value = "";
         backgroundColor = Color.fromValue(0x00000000);
         foregroundColor = Color.White;
@@ -124,7 +126,6 @@ class TextArea extends Entity {
             linesHeight += lineHeight;
         }
     }
-    
 
     /**
         Internal. Sets new font family and prepares new lines.

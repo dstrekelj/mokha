@@ -57,7 +57,7 @@ class Text extends Entity {
     **/
     override public function draw(g : Graphics) : Void {
         super.draw(g);
-        
+
         g.color = backgroundColor;
         g.fillRect(0, 0, body.width, body.height);
         g.color = foregroundColor;
