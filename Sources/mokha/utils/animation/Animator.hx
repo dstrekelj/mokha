@@ -77,7 +77,7 @@ class Animator {
         Draws current animation frame.
     **/
     public function draw(g : Graphics, sprite : Sprite) : Void {
-        g.drawSubImage(sprite.graphic, sprite.body.x, sprite.body.y, this.frame.x, this.frame.y, this.frame.width, this.frame.height);
+        g.drawSubImage(sprite.graphic, 0, 0, this.frame.x, this.frame.y, this.frame.width, this.frame.height);
     }
 
     /**
