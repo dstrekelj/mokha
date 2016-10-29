@@ -16,6 +16,9 @@ class Collider {
     **/
     public var hitbox(get, null) : Rectangle;
 
+    public var offsetX : Float;
+    public var offsetY : Float;
+
     /**
         If `true`, overlap and collision checks can be performed.
     **/
@@ -32,6 +35,8 @@ class Collider {
     public function new(x : Float, y : Float, width : Float, height : Float) : Void {
         body = new Rectangle(0, 0, 0, 0);
         hitbox = new Rectangle(x, y, width, height);
+        offsetX = 0;
+        offsetY = 0;
         isCollideable = true;
     }
 
@@ -54,7 +59,7 @@ class Collider {
     }
 
     @:noCompletion inline function get_hitbox() : Rectangle {
-        hitbox.setPosition(body.x, body.y);
+        hitbox.setPosition(body.x + offsetX, body.y + offsetY);
         return hitbox;
     }
 }

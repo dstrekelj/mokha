@@ -20,6 +20,11 @@ class Object {
     public var isVisible : Bool;
 
     /**
+        Read-only. If `true`, object is active and visible. 
+    **/
+    public var isAlive(get, null) : Bool;
+
+    /**
         Handles transformations made to this object.
     **/
     public var transformer : Transformer;
@@ -69,4 +74,6 @@ class Object {
         isActive = true;
         isVisible = true;
     }
+
+    @:noCompletion inline function get_isAlive() return isActive && isVisible;
 }

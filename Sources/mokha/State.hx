@@ -56,7 +56,9 @@ class State {
         Override this. Called when state is updated.
     **/
     public function update() : Void {
-        for (object in objects) object.update();
+        for (object in objects)
+            if (object.isActive)
+                object.update();
 
         camera.update();
     }
@@ -68,9 +70,11 @@ class State {
         camera.draw(g);
 
         for (object in objects) {
-            g.pushTransformation(g.transformation.multmat(object.transformer.transformation));
-            object.draw(g);
-            g.popTransformation();
+            if (object.isVisible) {
+                g.pushTransformation(g.transformation.multmat(object.transformer.transformation));
+                object.draw(g);
+                g.popTransformation();
+            }
         }
     }
 

@@ -13,7 +13,7 @@ class Text extends Entity {
     /**
         Text font family.
     **/
-    public var font(default, set) : Font;
+    public var font(default, set) : Null<Font>;
 
     /**
         Text background color.
@@ -28,12 +28,12 @@ class Text extends Entity {
     /**
         Text font size.
     **/
-    public var size(default, set) : Int;
+    public var size(default, set) : Null<Int>;
 
     /**
         Text value.
     **/
-    public var value(default, set) : String;
+    public var value(default, set) : Null<String>;
 
     /**
         Creates new text object.
