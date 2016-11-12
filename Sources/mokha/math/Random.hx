@@ -33,7 +33,11 @@ class Random {
         return getFloatIn(0, max);
     }
 
-    public inline function check(probability : Float) : Bool {
-        return probability > getFloat();
+    public inline function bool(probability : Float = 0.5) : Bool {
+        return probability > getFloatIn(0, 1);
+    }
+
+    public inline function sign(probability : Float = 0.5) : Int {
+        return bool(probability) ? -1 : 1;
     }
 }
