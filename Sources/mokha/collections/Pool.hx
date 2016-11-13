@@ -1,64 +1,97 @@
 package mokha.collections;
 
-import mokha.Object;
+import mokha.IDestroyable;
 
 /**
-    An object pool is an extension of an object group which limits the
-    number of members allowed inside the group by defining a capacity.
+    An object pool handles the instantiation and reuse of objects with
+    short lifespans. The idea is to create a pool of a certain
+    capacity, fill it with objects, and then take objects from the
+    pool when necessary.
 **/
-class Pool<T : mokha.Object> extends mokha.Object {
+class Pool<T : IDestroyable>  {
+    /**
+        The number of available pool objects.
+    **/
+    public var available(get, null) : Int;
+
+    /**
+        Total pool capacity.
+    **/
     public var capacity(get, null) : Int;
 
-    var objects : Array<T>;
+    /**
+        The array of objects forming the pool.
+    **/
+    var pool : Array<T>;
 
+    /**
+        Creates a new pool of a certain capacity.
+        @param  capacity    Maximum number of pooled objects
+    **/
     public function new(capacity : Int) : Void {
-        super();
-
         this.capacity = capacity;
+        
+        available = 0;
 
-        objects = new Array<T>();
+        pool = new Array<T>();
     }
 
-    override public function update() : Void {
-        super.update();
-
-        for (object in objects) if (object.isActive) object.update();
-    }
-
-    override public function draw(g : kha.graphics2.Graphics) : Void {
-        super.draw(g);
-
-        for (object in objects) {
-            if (object.isVisible) {
-                g.pushTransformation(g.transformation.multmat(object.transformer.transformation));
-                object.draw(g);
-                g.popTransformation();
-            }
-        }
-    }
-
+    /**
+        Adds object to pool. An object won't be added to the pool if
+        it is null, the pool is at capacity, if it already exists in
+        the pool, or if it's already in use.
+        @param  object  Object
+        @return `true` if object is successfully added to pool
+    **/
     public function add(object : T) : Bool {
-        if (objects.length >= capacity) return false;
-        if (mokha.tools.ArrayTools.has(objects, object)) return false;
+        if (object == null) return false;
+        if (pool.length >= capacity) return false;
 
-        objects.push(object);
-        return true;
+        var i = pool.indexOf(object);
+        if (i != -1 || i < available) return false;
+
+        object.destroy();
+        pool[available++] = object;
+
+        return true
     }
 
-    public function remove(object : T) : Bool {
-        if (!mokha.tools.ArrayTools.has(objects, object)) return false;
-
-        return objects.remove(object);
+    /**
+        Fills pool with a set number of objects, creating instances
+        according to passed arguments. If the number of objects is
+        greater than the capacity, the pool will be filled to
+        capacity.
+        @param  count   Number of objects to fill the pool with
+        @param  args    Array of arguments to pass to the constructor
+    **/
+    public function fill(count : Int, ?args : Array<Dynamic> = []) : Void {
+        if (count > capacity) count = capacity;
+        while (count-- > 0 && available <= capacity)
+            pool[available++] = Type.createInstance(Class<T>, args);
     }
 
-    public function recycle() : T {
-        for (object in objects) if (!object.isAlive) return object;
-        return null;
+    /**
+        Gets an object from the pool if available, or creates a new
+        instance with the provided arguments.
+        @param  args    Array of arguments to pass to the constructor
+        @return Object
+    **/
+    public function get(?args : Array<Dynamic> = []) : T {
+        if (available == 0) return Type.createInstance(Class<T>, args);
+        return pool[--available];
     }
 
-    public function iterator() : Iterator<T> {
-        return objects.iterator();
+    /**
+        Empties the pool.
+        @return An array of objects that were in the pool before emptying it
+    **/
+    public function empty() : Array<T> {
+        available = 0;
+        var old = pool;
+        pool = [];
+        return old;
     }
 
+    @:noCompletion inline function get_available() return available;
     @:noCompletion inline function get_capacity() return capacity;
 }
