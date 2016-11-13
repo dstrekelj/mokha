@@ -68,8 +68,8 @@ class Rectangle {
         Shorthand for centroid setting.
     **/
     public function setCentroid(x : Float, y : Float) : Void {
-        this.x = x - this.width / 2;
-        this.y = y - this.height / 2;
+        this.x = x - width / 2;
+        this.y = y - height / 2;
     }
     
     /**
@@ -81,8 +81,8 @@ class Rectangle {
     public function containsPoint(x : Float, y : Float) : Bool {
         if (this.x > x) return false;
         if (this.y > y) return false;
-        if ((this.x + this.width) < x) return false;
-        if ((this.y + this.width) < y) return false;
+        if ((this.x + width) < x) return false;
+        if ((this.y + width) < y) return false;
         return true;
     }
 
@@ -92,10 +92,10 @@ class Rectangle {
         @return `true` if object rectangle is completely contained within subject
     **/
     public function containsRectangle(r : Rectangle) : Bool {
-        if ((this.x + this.width) < (r.x + r.width)) return false;
-        if (this.x > r.x) return false;
-        if ((this.y + this.height) < (r.y + r.height)) return false;
-        if (this.y > r.y) return false;
+        if ((x + width) < (r.x + r.width)) return false;
+        if (x > r.x) return false;
+        if ((y + height) < (r.y + r.height)) return false;
+        if (y > r.y) return false;
         return true;
     }
     
@@ -105,10 +105,10 @@ class Rectangle {
         @return `true` if object rectangle is completely or partially overlapping subject
     **/
     public function overlapsRectangle(r : Rectangle) : Bool {
-        if (this.x > (r.x + r.width)) return false;
-        if (this.y > (r.y + r.height)) return false;
-        if ((this.x + this.width) < r.x) return false;
-        if ((this.y + this.width) < r.y) return false;
+        if (x > (r.x + r.width)) return false;
+        if (y > (r.y + r.height)) return false;
+        if ((x + width) < r.x) return false;
+        if ((y + width) < r.y) return false;
         return true;
     }
 
