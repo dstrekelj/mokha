@@ -15,11 +15,6 @@ class Pool<T : IDestroyable>  {
     public var available(get, null) : Int;
 
     /**
-        Total pool capacity.
-    **/
-    public var capacity(get, null) : Int;
-
-    /**
         The array of objects forming the pool.
     **/
     var pool : Array<T>;
@@ -28,9 +23,7 @@ class Pool<T : IDestroyable>  {
         Creates a new pool of a certain capacity.
         @param  capacity    Maximum number of pooled objects
     **/
-    public function new(capacity : Int) : Void {
-        this.capacity = capacity;
-        
+    public function new() : Void {
         available = 0;
 
         pool = new Array<T>();
@@ -45,15 +38,24 @@ class Pool<T : IDestroyable>  {
     **/
     public function add(object : T) : Bool {
         if (object == null) return false;
-        if (pool.length >= capacity) return false;
 
         var i = pool.indexOf(object);
         if (i != -1 || i < available) return false;
 
-        object.destroy();
         pool[available++] = object;
 
         return true
+    }
+
+    /**
+        Empties the pool.
+        @return An array of objects that were in the pool before emptying it
+    **/
+    public function empty() : Array<T> {
+        available = 0;
+        var old = pool;
+        pool = [];
+        return old;
     }
 
     /**
@@ -65,8 +67,7 @@ class Pool<T : IDestroyable>  {
         @param  args    Array of arguments to pass to the constructor
     **/
     public function fill(count : Int, ?args : Array<Dynamic> = []) : Void {
-        if (count > capacity) count = capacity;
-        while (count-- > 0 && available <= capacity)
+        while (count-- > 0)
             pool[available++] = Type.createInstance(Class<T>, args);
     }
 
@@ -81,17 +82,5 @@ class Pool<T : IDestroyable>  {
         return pool[--available];
     }
 
-    /**
-        Empties the pool.
-        @return An array of objects that were in the pool before emptying it
-    **/
-    public function empty() : Array<T> {
-        available = 0;
-        var old = pool;
-        pool = [];
-        return old;
-    }
-
     @:noCompletion inline function get_available() return available;
-    @:noCompletion inline function get_capacity() return capacity;
 }
