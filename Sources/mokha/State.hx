@@ -1,7 +1,5 @@
 package mokha;
 
-import mokha.Camera;
-
 import kha.graphics2.Graphics;
 
 /**
@@ -16,16 +14,9 @@ import kha.graphics2.Graphics;
 **/
 class State {
     /**
-        Reference to state camera.
-    **/
-    var camera : Camera;
-
-    /**
         Creates new state.
     **/
-    function new() : Void {
-        camera = new Camera();
-    }
+    function new() : Void {}
 
     /**
         Override this. Called when states are switched, after the
@@ -42,14 +33,10 @@ class State {
     /**
         Override this. Called when state is updated.
     **/
-    public function update() : Void {
-        camera.update();
-    }
+    public function update() : Void {}
 
     /**
         Override this. Called when state is drawn.
     **/
-    public function draw(g : Graphics) : Void {
-        camera.draw(g);
-    }
+    public function draw(g : Graphics) : Void {}
 }
